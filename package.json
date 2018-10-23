@@ -1,0 +1,99 @@
+{
+  "name": "simple-store",
+  "version": "1.0.0",
+  "description": "Store Management system",
+  "private": false,
+  "author": "frediustcdev <frediustcdev@gmail.com>",
+  "license": "MIT",
+  "homepage": "./",
+  "main": "public/electron.js",
+  "keywords": [
+    "Example",
+    "React",
+    "Electron"
+  ],
+  "scripts": {
+    "dev": "yarn react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test --env=jsdom",
+    "start": "concurrently \"cross-env BROWSER=none yarn react-app-rewired start\" \"wait-on http://localhost:3000 && electron .\"",
+    "pack": "electron-builder --dir",
+    "dist": "npx build --x64 --win --c.extraMetadata.main=build/electron.js -p always"
+  },
+  "dependencies": {
+    "antd": "^3.10.1",
+    "electron-is-dev": "^0.3.0",
+    "electron-publisher-s3": "^20.17.2",
+    "less": "^3.8.1",
+    "moment": "^2.22.2",
+    "pouchdb-browser": "^7.0.0",
+    "react": "^16.4.1",
+    "react-dev-utils": "^5.0.1",
+    "react-dom": "^16.5.2",
+    "react-router-dom": "^4.3.1"
+  },
+  "devDependencies": {
+    "babel-plugin-import": "^1.10.0",
+    "concurrently": "^3.6.0",
+    "cross-env": "^5.2.0",
+    "electron": "^2.0.3",
+    "electron-builder": "^20.28.4",
+    "electron-devtools-installer": "^2.2.4",
+    "react-app-rewire-less": "^2.1.3",
+    "react-app-rewired": "^1.6.2",
+    "react-scripts": "1.1.4",
+    "version-bump-prompt": "^4.1.0"
+  },
+  "build": {
+    "appId": "com.your-domain",
+    "compression": "normal",
+    "productName": "Simple Store",
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "mac": {
+      "icon": "assets/icon.icns",
+      "type": "distribution",
+      "target": [
+        "pkg",
+        "dmg",
+        "mas"
+      ],
+      "publish": {
+        "provider": "s3",
+        "bucket": "example-releases",
+        "path": "releases"
+      },
+      "category": "public.app-category.news"
+    },
+    "mas": {
+      "entitlements": "assets/entitlements.mas.plist",
+      "entitlementsInherit": "assets/entitlements.mas.inherit.plist",
+      "provisioningProfile": "assets/embedded.provisionprofile"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico",
+      "publish": {
+        "provider": "s3",
+        "bucket": "example-releases",
+        "path": "releases"
+      }
+    },
+    "linux": {
+      "icon": "assets/icon.png",
+      "target": [
+        "snap",
+        "AppImage"
+      ],
+      "description": "Example",
+      "category": "Network;Feed",
+      "publish": {
+        "provider": "s3",
+        "bucket": "example-releases",
+        "path": "releases"
+      }
+    }
+  }
+}
