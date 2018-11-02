@@ -1,0 +1,697 @@
+@import './var';
+
+/**padding **/
+//zero
+.p-0 {
+	padding: @zero;
+}
+.pb-0 {
+	padding-bottom: @zero;
+}
+.pl-0 {
+	padding-left: @zero;
+}
+.pr-0 {
+	padding-right: @zero;
+}
+.pt-0 {
+	padding-top: @zero;
+}
+.px-0 {
+	.pl-0;
+	.pr-0;
+}
+.py-0 {
+	.pt-0;
+	.pb-0;
+}
+//one
+.p-1 {
+	.pb-1;
+	.pl-1;
+	.pr-1;
+	.pt-1;
+}
+.pb-1 {
+	padding-bottom: @space1;
+}
+.pl-1 {
+	padding-left: @space1;
+}
+.pr-1 {
+	padding-right: @space1;
+}
+.pt-1 {
+	padding-top: @space1;
+}
+.px-1 {
+	.pl-1;
+	.pr-1;
+}
+.py-1 {
+	.pb-1;
+	.pt-1;
+}
+//two
+.p-2 {
+	.pb-2;
+	.pl-2;
+	.pr-2;
+	.pt-2;
+}
+.pb-2 {
+	padding-bottom: @space2;
+}
+.pl-2 {
+	padding-left: @space2;
+}
+.pr-2 {
+	padding-right: @space2;
+}
+.pt-2 {
+	padding-top: @space2;
+}
+.px-2 {
+	.pl-2;
+	.pr-2;
+}
+.py-2 {
+	.pb-2;
+	.pt-2;
+}
+//three
+.p-3 {
+	.pb-3;
+	.pl-3;
+	.pr-3;
+	.pt-3;
+}
+.pb-3 {
+	padding-bottom: @space3;
+}
+.pl-3 {
+	padding-left: @space3;
+}
+.pr-3 {
+	padding-right: @space3;
+}
+.pt-3 {
+	padding-top: @space3;
+}
+.px-3 {
+	.pl-3;
+	.pr-3;
+}
+.py-3 {
+	.pb-3;
+	.pt-3;
+}
+//four
+.p-4 {
+	.pb-4;
+	.pl-4;
+	.pr-4;
+	.pt-4;
+}
+.pb-4 {
+	padding-bottom: @space4;
+}
+.pl-4 {
+	padding-left: @space4;
+}
+.pr-4 {
+	padding-right: @space4;
+}
+.pt-4 {
+	padding-top: @space4;
+}
+.px-4 {
+	.pl-4;
+	.pr-4;
+}
+.py-4 {
+	.pb-4;
+	.pt-4;
+}
+//five
+.p-5 {
+	.pb-5;
+	.pl-5;
+	.pr-5;
+	.pt-5;
+}
+.pb-5 {
+	padding-bottom: @space5;
+}
+.pl-5 {
+	padding-left: @space5;
+}
+.pr-5 {
+	padding-right: @space5;
+}
+.pt-5 {
+	padding-top: @space5;
+}
+.px-5 {
+	.pl-5;
+	.pr-5;
+}
+.py-5 {
+	.pb-5;
+	.pt-5;
+}
+/** margin **/
+//zero
+.m-0 {
+	margin: @zero;
+}
+.mb-0 {
+	margin-bottom: @zero;
+}
+.ml-0 {
+	margin-left: @zero;
+}
+.mr-0 {
+	margin-right: @zero;
+}
+.mt-0 {
+	margin-top: @zero;
+}
+.mx-0 {
+	.ml-0;
+	.mr-0;
+}
+.my-0 {
+	.mt-0;
+	.mb-0;
+}
+//one
+.m-1 {
+	.mb-1;
+	.ml-1;
+	.mr-1;
+	.mt-1;
+}
+.mb-1 {
+	margin-bottom: @space1;
+}
+.ml-1 {
+	margin-left: @space1;
+}
+.mr-1 {
+	margin-right: @space1;
+}
+.mt-1 {
+	margin-top: @space1;
+}
+.mx-1 {
+	.ml-1;
+	.mr-1;
+}
+.my-1 {
+	.mb-1;
+	.mt-1;
+}
+//two
+.m-2 {
+	.mb-2;
+	.ml-2;
+	.mr-2;
+	.mt-2;
+}
+.mb-2 {
+	margin-bottom: @space2;
+}
+.ml-2 {
+	margin-left: @space2;
+}
+.mr-2 {
+	margin-right: @space2;
+}
+.mt-2 {
+	margin-top: @space2;
+}
+.mx-2 {
+	.ml-2;
+	.mr-2;
+}
+.my-2 {
+	.mb-2;
+	.mt-2;
+}
+//three
+.m-3 {
+	.mb-3;
+	.ml-3;
+	.mr-3;
+	.mt-3;
+}
+.mb-3 {
+	margin-bottom: @spacer;
+}
+.ml-3 {
+	margin-left: @spacer;
+}
+.mr-3 {
+	margin-right: @spacer;
+}
+.mt-3 {
+	margin-top: @spacer;
+}
+.mx-3 {
+	.ml-3;
+	.mr-3;
+}
+.my-3 {
+	.mb-3;
+	.mt-3;
+}
+//four
+.m-4 {
+	.mb-4;
+	.ml-4;
+	.mr-4;
+	.mt-4;
+}
+.mb-4 {
+	margin-bottom: @space4;
+}
+.ml-4 {
+	margin-left: @space4;
+}
+.mr-4 {
+	margin-right: @space4;
+}
+.mt-4 {
+	margin-top: @space4;
+}
+.mx-4 {
+	.ml-4;
+	.mr-4;
+}
+.my-4 {
+	.mb-4;
+	.mt-4;
+}
+//five
+.m-5 {
+	.mb-5;
+	.ml-5;
+	.mr-5;
+	.mt-5;
+}
+.mb-5 {
+	margin-bottom: @space5;
+}
+.ml-5 {
+	margin-left: @space5;
+}
+.mr-5 {
+	margin-right: @space5;
+}
+.mt-5 {
+	margin-top: @space5;
+}
+.mx-5 {
+	.ml-5;
+	.mr-5;
+}
+.my-5 {
+	.mb-5;
+	.mt-5;
+}
+.mx-auto {
+	margin-left: @auto;
+	margin-right: @auto;
+}
+
+/*** border ***/
+.border-0 {
+	border-width: @zero;
+}
+.border-top {
+	border-top: @border-thin;
+}
+.border-right {
+	border-right: @border-thin;
+}
+.border-bottom {
+	border-bottom: @border-thin;
+}
+.border-left {
+	border-left: @border-thin;
+}
+.border-top-0 {
+	border-top: @zero;
+}
+.border-right-0 {
+	border-right: @zero;
+}
+.border-bottom-0 {
+	border-bottom: @zero;
+}
+.border-left-0 {
+	border-left: @zero;
+}
+.rounded-0 {
+	border-radius: @zero;
+}
+.border-input-0 input {
+	border-width: @zero;
+}
+.border-input-top input {
+	border-top: @border-thin;
+}
+.border-input-right input {
+	border-right: @border-thin;
+}
+.border-input-bottom input {
+	border-bottom: @border-thin;
+}
+.border-input-left input {
+	border-left: @border-thin;
+}
+.rounded-0 {
+	border-radius: @zero;
+}
+.rounded {
+	border-radius: 5px;
+}
+.circle {
+	border-radius: 50%;
+}
+.shadow {
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+}
+.shadow-left {
+	box-shadow: 10px 0 15px rgba(0, 0, 0, 0.05);
+}
+/** size **/
+.h-100 {
+	height: @parent-height;
+}
+.h-75 {
+	height: (@parent-height * 0.75);
+}
+.h-50 {
+	height: @parent-height * 0.5;
+}
+.h-25 {
+	height: @parent-height * 0.25;
+}
+.vh-100 {
+	height: @view-height;
+}
+.vh-75 {
+	height: (@view-height * 0.75);
+}
+.vh-50 {
+	height: @view-height * 0.5;
+}
+.vh-25 {
+	height: @view-height * 0.25;
+}
+.h-auto {
+	height: @auto;
+}
+
+.vw-100 {
+	width: @view-width;
+}
+.vw-75 {
+	width: (@view-width * 0.75);
+}
+.vw-50 {
+	width: @view-width * 0.5;
+}
+.vw-25 {
+	width: @view-width * 25;
+}
+.w-100 {
+	width: @parent-width;
+}
+.w-75 {
+	width: (@parent-width * 0.75);
+}
+.w-50 {
+	width: @parent-width * 0.5;
+}
+.w-25 {
+	width: @parent-width * 25;
+}
+.w-auto {
+	width: @auto;
+}
+
+/*** Button ***/
+.btn-block {
+	.w-100;
+	.px-3;
+	.py-2;
+	.h-auto;
+}
+/*** bg ***/
+.bg-main {
+	background-color: @main-background;
+}
+.bg-transparent {
+	background-color: transparent !important;
+}
+.bg-white {
+	background-color: white !important;
+}
+
+/*** txt ***/
+.text-left {
+	text-align: left;
+}
+.text-right {
+	text-align: right;
+}
+.text-center {
+	text-align: center;
+}
+.bold {
+	font-weight: 700;
+}
+.ft-24 {
+	font-size: 24px;
+	line-break: 24px;
+}
+.ft-18 {
+	font-size: 18px;
+	line-break: 18px;
+}
+.small {
+	font-size: 0.9em;
+}
+.text-white {
+	color: white;
+}
+
+.capitalize {
+	text-transform: @capitalize;
+}
+.uppercase {
+	text-transform: @uppercase;
+}
+.lowercase {
+	text-transform: @lowercase;
+}
+.bold {
+	font-weight: 500;
+}
+.black {
+	font-family: 'nunitoblack';
+}
+
+/*** display ***/
+.none {
+	display: none !important;
+}
+.block {
+	display: block !important;
+}
+.inline {
+	display: inline !important;
+}
+.inline-block {
+	display: inline-block !important;
+}
+.flex {
+	display: flex !important;
+}
+.flex-column {
+	flex-direction: column !important;
+}
+.flex-fill {
+	flex-grow: 1;
+}
+.flex-fill > * {
+	.w-100;
+}
+.top {
+	align-items: start !important;
+}
+.right {
+	justify-content: flex-end !important;
+}
+.bottom {
+	align-items: end !important;
+}
+.left {
+	justify-content: flex-start !important;
+}
+.middle {
+	align-items: center !important;
+}
+.center {
+	justify-content: center !important;
+}
+.between {
+	justify-content: space-between !important;
+}
+.around {
+	justify-content: space-around !important;
+}
+
+/* position */
+.fixed {
+	position: fixed !important;
+	z-index: 100;
+}
+.absolute {
+	position: absolute !important;
+}
+.relative {
+	position: relative !important;
+}
+.static {
+	position: static !important;
+}
+.left-0 {
+	left: @zero;
+}
+.top-0 {
+	top: @zero;
+}
+.right-0 {
+	right: @zero;
+}
+.bottom-0 {
+	bottom: @zero;
+}
+.fixed-left {
+	.fixed;
+	.left-0
+}
+.fixed-top {
+	.fixed;
+	.top-0;
+}
+.fixed-right {
+	.fixed;
+	.right-0;
+}
+.fixed-bottom {
+	.fixed;
+	.bottom-0;
+}
+.fixed-top-left {
+	.fixed-top;
+	.fixed-left;
+}
+.fixed-top-right {
+	.fixed-top;
+	.fixed-right;
+}
+.fixed-bottom-left {
+	.fixed-bottom;
+	.fixed-left;
+}
+.fixed-bottom-right {
+	.fixed-bottom;
+	.fixed-right;
+}
+// style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }}
+
+// overflow
+.overflow-hidden {
+	overflow: hidden;
+}
+.overflow-scroll {
+	overflow: scroll;
+}
+.overflow-auto {
+	overflow: auto;
+}
+.overflow-x-hidden {
+	overflow-x: hidden;
+}
+.overflow-x-scroll {
+	overflow-x: scroll;
+}
+.overflow-x-auto {
+	overflow-x: auto;
+}
+.overflow-y-hidden {
+	overflow-y: hidden;
+}
+.overflow-y-scroll {
+	overflow-y: scroll;
+}
+.overflow-y-auto {
+	overflow-y: auto;
+}
+
+/*opacity */
+.opac {
+	opacity: 1;
+}
+.opac-0 {
+	opacity: 0;
+}
+.opac-1 {
+	opacity: 0.1;
+}
+.opac-2 {
+	opacity: 0.2;
+}
+.opac-3 {
+	opacity: 0.3;
+}
+.opac-4 {
+	opacity: 0.4;
+}
+.opac-5 {
+	opacity: 0.5;
+}
+.opac-6 {
+	opacity: 0.6;
+}
+.opac-7 {
+	opacity: 0.7;
+}
+.opac-8 {
+	opacity: 0.8;
+}
+.opac-9 {
+	opacity: 0.9;
+}
+
+/** shadow **/
+.shadow-0,
+.shadow-0:hover,
+.shadow-0:focus,
+.shadow-0:active {
+	box-shadow: none !important;
+}
+.default-shadow {
+	box-shadow: 0 0 30px rgba(0, 0, 0, .05) !important;
+}
+.default-shadow-hover {
+	box-shadow: 0 5px 50px rgba(0, 0, 0, .05) !important;
+}
+.text-primary {
+	color: @primary-color;
+}

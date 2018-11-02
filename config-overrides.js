@@ -9,7 +9,12 @@ module.exports = function override(config, env) {
 
   // change importing css to less
   config = rewireLess.withLoaderOptions({
-    modifyVars: {},
+    modifyVars: {
+      "@body-background": "#DDE1E7",
+      "@primary-color": "#4A27F7",
+      "@font-family":
+        'Nunito,"Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif,"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+    },
     javascriptEnabled: true
   })(config, env);
   return config;
