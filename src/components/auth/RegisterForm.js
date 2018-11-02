@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Form, Input, Button, Icon } from "antd";
 import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import { USER_DB } from "../../configs";
+import { logUserIn } from "../../actions";
 
 class LoginForm extends Component {
   state = {
@@ -9,7 +11,7 @@ class LoginForm extends Component {
     passwordVisible: false
   };
 
-  registerHandler = e => {
+  registerHandler = async e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -17,7 +19,9 @@ class LoginForm extends Component {
         USER_DB.signUp(username, password)
           .then(() =>
             USER_DB.logIn(username, password)
-              .then(() => this.props.history.push("app/"))
+              .then(res => {
+                this.props.login(res);
+              })
               .catch(err => err)
           )
           .catch(err => console.warn(err));
@@ -49,6 +53,7 @@ class LoginForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { passwordVisible, validating } = this.state;
+    console.log(this.props);
     return (
       <Form
         className="authForm"
@@ -142,4 +147,7 @@ class LoginForm extends Component {
   }
 }
 
-export default withRouter(Form.create()(LoginForm));
+export default connect(
+  null,
+  { login: logUserIn }
+)(withRouter(Form.create()(LoginForm)));

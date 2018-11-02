@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Routes from "../../routes";
 import { BrowserRouter } from "react-router-dom";
+import Routes from "../../routes";
 
 class App extends Component {
   render() {

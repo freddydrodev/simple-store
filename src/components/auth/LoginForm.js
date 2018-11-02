@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Form, Input, Button, Icon } from "antd";
+import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { USER_DB } from "../../configs";
+import { logUserIn } from "../../actions";
 
 class LoginForm extends Component {
   state = {
@@ -9,13 +11,13 @@ class LoginForm extends Component {
     passwordVisible: false
   };
 
-  loginHandler = e => {
+  loginHandler = async e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { username, password } = values;
         USER_DB.logIn(username, password)
-          .then(() => this.props.history.push("app/"))
+          .then(res => this.props.login(res))
           .catch(err => console.warn(err));
       }
     });
@@ -102,4 +104,7 @@ class LoginForm extends Component {
   }
 }
 
-export default withRouter(Form.create()(LoginForm));
+export default connect(
+  null,
+  { login: logUserIn }
+)(withRouter(Form.create()(LoginForm)));

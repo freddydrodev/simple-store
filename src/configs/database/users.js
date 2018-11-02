@@ -9,6 +9,6 @@ PouchDB.plugin({
 // // PouchDB.plugin(require("pouchdb-authentication"));
 // const PouchDB = require("pouchdb").plugin(authDB);
 // export const USER_DB = new PouchDB("usersDB");
-export const USER_DB = new PouchDB("http://localhost:5984/usersDB", {
+export const USER_DB = new PouchDB("http://localhost:5984/users", {
   skip_setup: true
 });

@@ -1,13 +1,19 @@
 import React, { Component } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  Redirect,
+  BrowserRouter as Router
+} from "react-router-dom";
+import { connect } from "react-redux";
 import PrivateFlow from "./PrivateFlow";
 import AuthFlow from "./AuthFlow";
 import { USER_DB } from "../configs";
 import LoadingScreen from "../components/common/LoadingScreen";
+import * as actions from "../actions";
 
 class Routes extends Component {
   state = {
-    isAuth: false,
     isReady: false,
     flow: [
       {
@@ -25,10 +31,10 @@ class Routes extends Component {
     USER_DB.getSession()
       .then(({ userCtx }) => {
         if (userCtx.name) {
-          this.setState({ isAuth: true });
+          this.props.logUserIn(userCtx);
         } else {
           if (this.state.isAuth) {
-            this.setState({ isAuth: false });
+            this.logUserOut();
           }
         }
       })
@@ -39,26 +45,39 @@ class Routes extends Component {
   }
 
   render() {
-    const { isAuth, isReady } = this.state;
+    const { currentUser } = this.props;
+    const { isReady } = this.state;
+
     return isReady ? (
-      <Switch>
-        <Route
-          path="/app"
-          render={props =>
-            isAuth ? <PrivateFlow {...props} /> : <Redirect to="/" />
-          }
-        />
-        <Route
-          path="/"
-          render={props =>
-            !isAuth ? <AuthFlow {...props} /> : <Redirect to="/app" />
-          }
-        />
-      </Switch>
+      <Router>
+        <Switch>
+          <Route
+            path="/app"
+            render={props =>
+              currentUser ? <PrivateFlow {...props} /> : <Redirect to="/" />
+            }
+          />
+          <Route
+            path="/"
+            render={props =>
+              !currentUser ? <AuthFlow {...props} /> : <Redirect to="/app" />
+            }
+          />
+        </Switch>
+      </Router>
     ) : (
       <LoadingScreen />
     );
   }
 }
 
-export default Routes;
+const mapStateToProps = ({ currentUser }) => ({
+  currentUser
+});
+
+// const mapActionToProps = () => {};
+
+export default connect(
+  mapStateToProps,
+  actions
+)(Routes);
