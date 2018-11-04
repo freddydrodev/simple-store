@@ -6,8 +6,7 @@ class Register extends Component {
     return (
       <div
         style={{
-          width: "100vw",
-          height: "100vh",
+          height: "100%",
           flex: 1,
           display: "flex",
           flexDirection: "column",

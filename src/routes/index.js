@@ -49,22 +49,31 @@ class Routes extends Component {
     const { isReady } = this.state;
 
     return isReady ? (
-      <Router>
-        <Switch>
-          <Route
-            path="/app"
-            render={props =>
-              currentUser ? <PrivateFlow {...props} /> : <Redirect to="/" />
-            }
-          />
-          <Route
-            path="/"
-            render={props =>
-              !currentUser ? <AuthFlow {...props} /> : <Redirect to="/app" />
-            }
-          />
-        </Switch>
-      </Router>
+      <React.Fragment>
+        <div className="titlebar">Simple Store</div>
+        <div className="container">
+          <Router>
+            <Switch>
+              <Route
+                path="/app"
+                render={props =>
+                  currentUser ? <PrivateFlow {...props} /> : <Redirect to="/" />
+                }
+              />
+              <Route
+                path="/"
+                render={props =>
+                  !currentUser ? (
+                    <AuthFlow {...props} />
+                  ) : (
+                    <Redirect to="/app" />
+                  )
+                }
+              />
+            </Switch>
+          </Router>
+        </div>
+      </React.Fragment>
     ) : (
       <LoadingScreen />
     );
