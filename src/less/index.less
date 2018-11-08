@@ -3,6 +3,9 @@
 h1 {
   font-size: 72px;
 }
+h2 {
+  font-weight: 900;
+}
 .ant-form-item {
   margin-bottom: 15px !important;
 }
@@ -34,10 +37,43 @@ h1 {
   -webkit-app-region: drag;
   background-color: white;
   height: 22px;
+  font-size: 14px;
   width: 100vw;
+  border-bottom: 1px solid #f0f0f0;
   text-align: center;
 }
 .container {
   height: ~"calc(100vh - 22px)";
   overflow: scroll;
+}
+
+//private page
+.header-app {
+  display: flex;
+  justify-content: space-between;
+  // border-bottom: 2px solid #4a27f7;
+}
+ul {
+  list-style: none;
+}
+.header-app .ant-dropdown-menu-item-group-list {
+  .p-0;
+}
+.header-app .ant-dropdown-menu-item-group-title {
+  .py-0;
+  font-size: 0.7em;
+  text-align: center;
+  text-transform: uppercase;
+  border-bottom: 1px solid #f0f0f0;
+}
+.header-app .ant-menu-horizontal > .ant-menu-item {
+  .px-2;
+}
+.header-app .ant-menu-horizontal > .ant-menu-item:hover,
+.header-app .ant-menu-horizontal > .ant-menu-item-selected {
+  border-bottom: 2px solid transparent !important;
+  color: inherit !important;
+}
+.logo-h2 {
+  font-family: "Pattaya";
 }

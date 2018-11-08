@@ -1,17 +1,9 @@
 import { combineReducers } from "redux";
 
+import currentUser from "./users";
+
 const reducers = combineReducers({
-  currentUser: (state = null, action) => {
-    //switching action
-    switch (action.type) {
-      case "logged_in":
-        return action.user;
-      case "logged_out":
-        return null;
-      default:
-        return state;
-    }
-  }
+  currentUser
 });
 
 export default reducers;

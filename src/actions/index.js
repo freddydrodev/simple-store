@@ -1,3 +1,4 @@
-export const logUserIn = user => ({ type: "logged_in", user });
-export const logUserOut = () => ({ type: "logged_out" });
-export const logUserO = () => ({ type: "log_out" });
+import { USER_LOGGED_IN, USER_LOGGED_OUT } from "./actionTypes";
+
+export const userLoggedIn = user => ({ type: USER_LOGGED_IN, user });
+export const userLoggedOut = () => ({ type: USER_LOGGED_OUT });

@@ -10,7 +10,7 @@ import PrivateFlow from "./PrivateFlow";
 import AuthFlow from "./AuthFlow";
 import { USER_DB } from "../configs";
 import LoadingScreen from "../components/common/LoadingScreen";
-import * as actions from "../actions";
+import { userLoggedIn, userLoggedOut } from "../actions";
 
 class Routes extends Component {
   state = {
@@ -31,15 +31,18 @@ class Routes extends Component {
     USER_DB.getSession()
       .then(({ userCtx }) => {
         if (userCtx.name) {
-          this.props.logUserIn(userCtx);
+          this.props.userLoggedIn(userCtx);
         } else {
           if (this.state.isAuth) {
-            this.logUserOut();
+            this.userLoggedOut();
           }
         }
       })
-      .catch(err => console.warn)
       .then(() => {
+        this.setState({ isReady: true });
+      })
+      .catch(err => {
+        console.log(err);
         this.setState({ isReady: true });
       });
   }
@@ -84,9 +87,7 @@ const mapStateToProps = ({ currentUser }) => ({
   currentUser
 });
 
-// const mapActionToProps = () => {};
-
 export default connect(
   mapStateToProps,
-  actions
+  { userLoggedIn, userLoggedOut }
 )(Routes);

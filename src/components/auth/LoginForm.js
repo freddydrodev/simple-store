@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { Form, Input, Button, Icon } from "antd";
+import { Form, Input, Button, Icon, notification } from "antd";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { USER_DB } from "../../configs";
-import { logUserIn } from "../../actions";
+import { userLoggedIn } from "../../actions";
 
 class LoginForm extends Component {
   state = {
@@ -17,8 +17,28 @@ class LoginForm extends Component {
       if (!err) {
         const { username, password } = values;
         USER_DB.logIn(username, password)
-          .then(res => this.props.login(res))
-          .catch(err => console.warn(err));
+          .then(res => {
+            this.props.login(res);
+            this.props.login(res);
+            notification.open({
+              message: (
+                <span>
+                  Bienvenue <strong>{username}</strong>!
+                </span>
+              ),
+              type: "success"
+            });
+          })
+          .catch(({ status, message }) => {
+            if (status === 401) {
+              notification.open({
+                message: "Connexion Erreur",
+                description: "Nom d'utilisateur ou/et mot de passe incorrect",
+                type: "error"
+              });
+            }
+            console.warn(status, message);
+          });
       }
     });
   };
@@ -106,5 +126,5 @@ class LoginForm extends Component {
 
 export default connect(
   null,
-  { login: logUserIn }
+  { login: userLoggedIn }
 )(withRouter(Form.create()(LoginForm)));
