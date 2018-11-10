@@ -30,13 +30,22 @@ class LoginForm extends Component {
             });
           })
           .catch(({ status, message }) => {
-            if (status === 401) {
-              notification.open({
-                message: "Connexion Erreur",
-                description: "Nom d'utilisateur ou/et mot de passe incorrect",
-                type: "error"
-              });
+            const err = { message: "Connexion Erreur", type: "error" };
+            switch (status) {
+              case 401:
+                notification.open({
+                  ...err,
+                  description: "Nom d'utilisateur ou/et mot de passe incorrect"
+                });
+                break;
+              default:
+                notification.open({
+                  ...err,
+                  description: "Erreur inconnu Verifier que le server est actif"
+                });
+                break;
             }
+
             console.warn(status, message);
           });
       }

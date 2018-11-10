@@ -33,12 +33,20 @@ class LoginForm extends Component {
               .catch(err => err)
           )
           .catch(({ status, message }) => {
-            if (status === 409) {
-              notification.open({
-                message: "Inscription Erreur",
-                description: "Nom d'utilisateur deja pris, essayez un autre",
-                type: "error"
-              });
+            const err = { message: "Inscription Erreur", type: "error" };
+            switch (status) {
+              case 409:
+                notification.open({
+                  ...err,
+                  description: "Nom d'utilisateur deja pris, essayez un autre"
+                });
+                break;
+              default:
+                notification.open({
+                  ...err,
+                  description: "Erreur inconnu Verifier que le server est actif"
+                });
+                break;
             }
             console.warn(status, message);
           });

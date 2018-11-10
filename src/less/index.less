@@ -1,5 +1,8 @@
 @import "~antd/dist/antd.less";
 @import "./utils.less";
+body {
+  overflow-x: hidden;
+}
 h1 {
   font-size: 72px;
 }
@@ -31,6 +34,17 @@ h2 {
 //btn
 .ant-btn-primary {
   box-shadow: 0 10px 20px rgba(74, 39, 247, 0.25) !important;
+}
+.ant-btn-danger {
+  background: #ff4d4f !important;
+  border-color: #ff4d4f !important;
+  color: white !important;
+  box-shadow: 0 10px 20px rgba(252, 16, 48, 0.25) !important;
+}
+.ant-btn-danger:hover,
+.ant-btn-danger:focus {
+  background: #ff7b7e !important;
+  border-color: #ff7b7e !important;
 }
 .titlebar {
   -webkit-user-select: none;
@@ -76,4 +90,41 @@ ul {
 }
 .logo-h2 {
   font-family: "Pattaya";
+}
+
+.page-legend {
+  padding-bottom: 10px;
+  position: relative;
+  border-bottom: 2px solid rgba(74, 39, 247, 1);
+}
+
+//table
+.ant-table-small
+  > .ant-table-content
+  > .ant-table-body
+  > table
+  > .ant-table-tbody
+  > tr
+  > td {
+  .p-0;
+}
+.ant-table-small
+  > .ant-table-content
+  > .ant-table-body
+  > table
+  > .ant-table-tbody
+  > tr:hover
+  > td {
+  // background: rgba(74, 39, 247, 1);
+  // color: white;
+}
+.ant-table-small .ant-input,
+.ant-table-small .ant-input:hover,
+.ant-table-small .ant-input:focus {
+  border-radius: 0;
+  .bg-transparent;
+  .border-0;
+}
+.ant-table-small .ant-input:focus {
+  box-shadow: 0 0 0 2px rgba(74, 39, 247, 1) !important;
 }
