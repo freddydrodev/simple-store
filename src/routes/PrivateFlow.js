@@ -14,7 +14,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import Categories from "../pages/Categories/Categories";
 import { USER_DB } from "../configs";
 import { userLoggedOut, updateCategory } from "../actions";
-import { CATEGORIES_DB } from "../configs/database/categories";
+import { DB } from "../configs/database";
 
 const { Header, Content, Sider } = Layout;
 const MenuItem = Menu.Item;
@@ -55,11 +55,11 @@ class PrivateFlow extends Component {
             className="mb-0 flex middle center logo-h2"
           >
             {menuCollapsed ? (
-              "SS"
+              "BS"
             ) : (
               <span>
-                S<span className="text-black small">imple</span> S
-                <span className="text-black small">tore</span>
+                B<span className="text-black small">ellise</span> S
+                <span className="text-black small">tyle</span>
               </span>
             )}
           </h2>
@@ -96,16 +96,21 @@ class PrivateFlow extends Component {
   }
 
   componentDidMount() {
-    //GET CATEGORY
-    CATEGORIES_DB.allDocs({ include_docs: true }).then(docs => {
-      const cat = docs.rows.map(({ doc }) => {
-        const { _id, name, madeBy, madeSince } = doc;
+    DB.changes({ since: 0, live: true, include_docs: true }).on(
+      "change",
+      data => {
+        DB.allDocs({ include_docs: true }).then(docs => {
+          const _db = docs.rows.map(({ doc }) => ({ key: doc._id, ...doc }));
+          const cat = _db.filter(e => e.type === "category");
+          this.props.getCat(cat);
 
-        return { id: _id, key: _id, name, madeBy, madeSince, ...doc };
-      });
-      console.log(cat, this.props.updateCategory);
-      this.props.getCat(cat);
-    });
+          // if (!data.deleted) {
+          //   console.log("[update _db]", _db);
+          //   console.log("[update cat]", cat);
+          // }
+        });
+      }
+    );
   }
 
   menuLeft = () => {
@@ -124,10 +129,16 @@ class PrivateFlow extends Component {
           </Link>
         </MenuItem>
         <MenuItem key="/app/employees">
-          <Link to={url + "/employees"}>Employees</Link>
+          <Link to={url + "/employees"}>
+            <Icon type="team" />
+            <span>Employees</span>
+          </Link>
         </MenuItem>
         <MenuItem key="/app/clients">
-          <Link to={url + "/clients"}>Clients</Link>
+          <Link to={url + "/clients"}>
+            <Icon type="user" />
+            <span>Clients</span>
+          </Link>
         </MenuItem>
 
         <MenuItem key="/app/categories">
@@ -137,16 +148,34 @@ class PrivateFlow extends Component {
           </Link>
         </MenuItem>
         <MenuItem key="/app/products">
-          <Link to={url + "/products"}>Produits</Link>
+          <Link to={url + "/products"}>
+            <Icon type="qrcode" />
+            <span>Produits</span>
+          </Link>
         </MenuItem>
         <MenuItem key="/app/orders">
-          <Link to={url + "/orders"}>Commandes</Link>
+          <Link to={url + "/orders"}>
+            <Icon type="exception" />
+            <span>Commandes</span>
+          </Link>
         </MenuItem>
         <MenuItem key="/app/sales">
-          <Link to={url + "/sales"}>Ventes</Link>
+          <Link to={url + "/sales"}>
+            <Icon type="shopping-cart" />
+            <span>Ventes</span>
+          </Link>
+        </MenuItem>
+        <MenuItem key="/app/delivering">
+          <Link to={url + "/delivering"}>
+            <Icon type="calendar" />
+            <span>Livraisons</span>
+          </Link>
         </MenuItem>
 
-        <MenuItem key="/app/calculator">Calculator</MenuItem>
+        <MenuItem key="/app/calculator">
+          <Icon type="calculator" />
+          <span>Calculator</span>
+        </MenuItem>
       </Menu>
     );
   };

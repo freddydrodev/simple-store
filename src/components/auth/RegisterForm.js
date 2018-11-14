@@ -41,6 +41,16 @@ class LoginForm extends Component {
                   description: "Nom d'utilisateur deja pris, essayez un autre"
                 });
                 break;
+              case 404:
+                notification.open({
+                  ...err,
+                  description: (
+                    <React.Fragment>
+                      Base de donnee <b>_users</b> inexistante
+                    </React.Fragment>
+                  )
+                });
+                break;
               default:
                 notification.open({
                   ...err,

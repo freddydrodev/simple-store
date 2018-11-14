@@ -1,11 +1,30 @@
 import React, { Component } from "react";
-import { Form, Input, Button, Modal } from "antd";
+import { Form, Input } from "antd";
 import { connect } from "react-redux";
-import { CATEGORIES_DB } from "../../configs/database/categories";
+import { DB } from "../../configs/database";
 import { updateCategory } from "../../actions";
 
 const FormItem = Form.Item;
+
 class CatForm extends Component {
+  submit = () => {
+    const { form } = this.props;
+
+    form.validateFields((err, values) => {
+      const { name } = values;
+      if (!err) {
+        DB.post({
+          name: name.trim(),
+          madeBy: this.props.currentUser.name,
+          madeSince: new Date(),
+          type: "category"
+        }).then(() => {
+          form.resetFields();
+        });
+      }
+    });
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -19,73 +38,9 @@ class CatForm extends Component {
                 message: "Entrez le nom de la categorie"
               }
             ]
-          })(<Input onPressEnter={this.props.save} />)}
+          })(<Input onPressEnter={this.submit} />)}
         </FormItem>
       </Form>
-    );
-  }
-}
-
-const FormElement = Form.create()(CatForm);
-
-class AddCategory extends Component {
-  state = {
-    visible: false
-  };
-
-  modalShow = () => {
-    this.setState({ visible: true });
-  };
-
-  modalHide = () => {
-    this.setState({ visible: false });
-  };
-
-  save = () => {
-    const { form } = this.wrappedForm.props;
-
-    form.validateFields((err, values) => {
-      const { name } = values;
-      if (!err) {
-        CATEGORIES_DB.post({
-          name: name.trim(),
-          madeBy: this.props.currentUser.name,
-          madeSince: new Date()
-        }).then(() => {
-          CATEGORIES_DB.allDocs({ include_docs: true }).then(docs => {
-            const cat = docs.rows.map(({ doc }) => {
-              const { _id, name, madeBy, madeSince } = doc;
-
-              return { id: _id, key: _id, name, madeBy, madeSince, ...doc };
-            });
-            console.log(cat, this.props.updateCategory);
-            this.props.updateCategory(cat);
-            form.resetFields();
-            this.setState({ visible: false });
-          });
-        });
-      }
-    });
-  };
-
-  render() {
-    return (
-      <React.Fragment>
-        <Button icon="plus" type="primary" onClick={this.modalShow} />
-        <Modal
-          visible={this.state.visible}
-          onCancel={this.modalHide}
-          onOk={this.save}
-          title="Ajouter Categorie"
-        >
-          <FormElement
-            save={this.save}
-            wrappedComponentRef={wrappedform =>
-              (this.wrappedForm = wrappedform)
-            }
-          />
-        </Modal>
-      </React.Fragment>
     );
   }
 }
@@ -94,7 +49,9 @@ const mapStateToProps = ({ currentUser }) => ({
   currentUser
 });
 
-export default connect(
+const FormElement = connect(
   mapStateToProps,
   { updateCategory }
-)(AddCategory);
+)(Form.create()(CatForm));
+
+export default FormElement;

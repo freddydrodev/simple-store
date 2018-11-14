@@ -9,7 +9,6 @@ const categories = (state = [], { type, cat }) => {
     case ADD_CATEGORY:
       break;
     case UPDATE_CATEGORY:
-      console.log(cat);
       return cat;
     case DELETE_CATEGORY:
       break;
