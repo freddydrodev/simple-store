@@ -13,7 +13,8 @@ class CatForm extends Component {
     form.validateFields((err, values) => {
       const { name } = values;
       if (!err) {
-        DB.post({
+        DB.put({
+          _id: name.trim(),
           name: name.trim(),
           madeBy: this.props.currentUser.name,
           madeSince: new Date(),
@@ -49,9 +50,6 @@ const mapStateToProps = ({ currentUser }) => ({
   currentUser
 });
 
-const FormElement = connect(
-  mapStateToProps,
-  { updateCategory }
-)(Form.create()(CatForm));
+const FormElement = connect(mapStateToProps)(Form.create()(CatForm));
 
 export default FormElement;

@@ -14,4 +14,4 @@ class Categories extends Component {
   }
 }
 
-export default Categories;
+export { Categories };

@@ -2,7 +2,8 @@ import { combineReducers } from "redux";
 import {
   USER_LOGGED_IN,
   USER_LOGGED_OUT,
-  UPDATE_CATEGORY
+  UPDATE_CATEGORY,
+  UPDATE_PRODUCTS
 } from "../actions/actionTypes";
 
 const reducers = combineReducers({
@@ -16,10 +17,18 @@ const reducers = combineReducers({
         return state;
     }
   },
-  categories: (state = [], { type, cat }) => {
+  categories: (state = [], { type, data }) => {
     switch (type) {
       case UPDATE_CATEGORY:
-        return cat;
+        return data;
+      default:
+        return state;
+    }
+  },
+  products: (state = [], { type, data }) => {
+    switch (type) {
+      case UPDATE_PRODUCTS:
+        return data;
       default:
         return state;
     }

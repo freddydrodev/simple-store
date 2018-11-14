@@ -11,10 +11,10 @@ import {
   notification
 } from "antd";
 import Dashboard from "../pages/Dashboard/Dashboard";
-import Categories from "../pages/Categories/Categories";
 import { USER_DB } from "../configs";
-import { userLoggedOut, updateCategory } from "../actions";
+import { userLoggedOut, updateCategory, updateProducts } from "../actions";
 import { DB } from "../configs/database";
+import { Products, Categories } from "../pages";
 
 const { Header, Content, Sider } = Layout;
 const MenuItem = Menu.Item;
@@ -37,6 +37,10 @@ class PrivateFlow extends Component {
       {
         component: Categories,
         path: this.props.match.url + "/categories"
+      },
+      {
+        component: Products,
+        path: this.props.match.url + "/products"
       },
       {
         component: Dashboard,
@@ -101,13 +105,16 @@ class PrivateFlow extends Component {
       data => {
         DB.allDocs({ include_docs: true }).then(docs => {
           const _db = docs.rows.map(({ doc }) => ({ key: doc._id, ...doc }));
-          const cat = _db.filter(e => e.type === "category");
-          this.props.getCat(cat);
+          const category = _db.filter(e => e.type === "category");
+          const products = _db.filter(e => e.type === "product");
+          this.props.updateCategory(category);
+          this.props.updateProducts(products);
 
-          // if (!data.deleted) {
-          //   console.log("[update _db]", _db);
-          //   console.log("[update cat]", cat);
-          // }
+          if (!data.deleted) {
+            console.log("[update _db]", _db);
+            console.log("[update category]", category);
+            console.log("[update products]", products);
+          }
         });
       }
     );
@@ -221,5 +228,5 @@ class PrivateFlow extends Component {
 
 export default connect(
   ({ currentUser }) => ({ currentUser }),
-  { logout: userLoggedOut, getCat: updateCategory }
+  { logout: userLoggedOut, updateCategory, updateProducts }
 )(PrivateFlow);

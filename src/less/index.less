@@ -120,12 +120,32 @@ ul {
 }
 .ant-table-small .ant-input,
 .ant-table-small .ant-input:hover,
-.ant-table-small .ant-input:focus {
+.ant-table-small .ant-input:focus,
+.ant-table-small .ant-select,
+.ant-table-small .ant-select:hover,
+.ant-table-small .ant-select:focus,
+.ant-table-small .ant-input-number,
+.ant-table-small .ant-input-number:hover,
+.ant-table-small .ant-input-number:focus {
   border-radius: 0;
   .bg-transparent;
   .border-0;
+  .w-100;
 }
-.ant-table-small .ant-input:focus {
+.ant-table-small .ant-select-selection,
+.ant-table-small .ant-select-selection:focus,
+.ant-table-small .ant-select-selection:hover {
+  .rounded-0;
+  .border-0;
+  .w-100;
+  .bg-transparent;
+}
+.ant-table-small .ant-input:focus,
+.ant-table-small .ant-select-selection:focus,
+.ant-table-small .ant-input-number-input:focus {
+  .rounded-0;
+  .bg-transparent;
+  overflow: hidden;
   box-shadow: 0 0 0 2px rgba(74, 39, 247, 1) !important;
 }
 .ant-menu-item {
