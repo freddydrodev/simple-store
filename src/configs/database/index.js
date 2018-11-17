@@ -1,4 +1,17 @@
 import PouchDB from "pouchdb";
 export * from "./users.js";
 
-export const DB = new PouchDB("simple-store");
+PouchDB.plugin(require("relational-pouch"));
+PouchDB.plugin(require("pouchdb-find"));
+export const DB = new PouchDB("bellise-style");
+
+DB.setSchema([
+  {
+    singular: "category",
+    plural: "categories"
+  },
+  {
+    singular: "user",
+    plural: "users"
+  }
+]);
