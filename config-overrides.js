@@ -20,13 +20,13 @@ module.exports = function override(config, env) {
   // change importing css to less
   config = rewireLess.withLoaderOptions({
     modifyVars: {
-      "@body-background": "rgb(224,	229, 233)",
-      "@layout-body-background": "rgb(224, 229, 233)",
-      "@layout-header-background": "#fff",
+      "@body-background": "#f0f5f9",
+      "@layout-body-background": "#f0f5f9",
+      "@layout-header-background": "#fdffff",
       "@layout-header-padding": "0 10px",
       "@menu-collapsed-width": "50px",
       "@layout-header-height": "50px",
-      "@primary-color": "#4A27F7",
+      "@primary-color": "#3c63fe",
       "@font-size-base": "16px",
       "@font-family":
         'Dosis,"Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif,"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'

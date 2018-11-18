@@ -28,6 +28,14 @@ DB.setSchema([
     singular: "order",
     plural: "orders",
     relations: {
+      client: { belongsTo: "client" },
+      products: { hasMany: "product" }
+    }
+  },
+  {
+    singular: "sale",
+    plural: "sales",
+    relations: {
       client: { belongsTo: "client" }
     }
   }

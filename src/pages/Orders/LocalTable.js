@@ -8,62 +8,62 @@ class LocalTable extends Component {
   state = {
     columns: [
       {
-        title: "Ref",
+        title: "ID",
         dataIndex: "id",
         key: "id",
-        width: 80,
+        width: 50,
         render: (text, record, id) => (
-          <DynamicCell value={text} data={record} row="id" />
+          <DynamicCell value={id + 1} data={record} row="id" />
         )
       },
       {
-        title: "Image",
-        dataIndex: "image",
-        key: "image",
-        render: (text, record) => (
-          <DynamicCell value={text} data={record} row="image" />
-        )
-      },
-      {
-        title: "Nom",
+        title: "Nom Complet",
         dataIndex: "name",
         key: "name",
         render: (text, record) => (
           <DynamicCell value={text} field="text" data={record} row="name" />
         )
       },
+
       {
-        title: "Categorie",
-        dataIndex: "category",
-        key: "category",
+        title: "Email",
+        dataIndex: "email",
+        key: "email",
+        render: (text, record) => (
+          <DynamicCell value={text} field="text" data={record} row="email" />
+        )
+      },
+      {
+        title: "Contact",
+        dataIndex: "contact",
+        key: "contact",
+        width: 150,
+        render: (text, record) => (
+          <DynamicCell value={text} field="text" data={record} row="contact" />
+        )
+      },
+      {
+        title: "Address",
+        dataIndex: "location",
+        key: "location",
+        render: (text, record) => (
+          <DynamicCell value={text} field="text" data={record} row="location" />
+        )
+      },
+      {
+        title: "Genre",
+        dataIndex: "gender",
+        key: "gender",
         render: (text, record) => (
           <DynamicCell
             value={text}
             field="select"
-            select={this.props.categories}
+            select={[
+              { id: "male", name: "Homme" },
+              { id: "female", name: "Femme" }
+            ]}
             data={record}
-            row="category"
-          />
-        )
-      },
-      {
-        title: "Prix",
-        dataIndex: "price",
-        key: "price",
-        render: (text, record) => (
-          <DynamicCell value={text} field="number" data={record} row="price" />
-        )
-      },
-      {
-        title: "Quantite",
-        dataIndex: "quantity",
-        key: "quantity",
-        render: (text, record) => (
-          <DynamicCell
-            value={text}
-            field="number"
-            data={record}
-            row="quantity"
+            row="gender"
           />
         )
       },
@@ -90,13 +90,12 @@ class LocalTable extends Component {
     return (
       <DynamicTable
         columns={this.state.columns}
-        dataSource={this.props.products}
+        dataSource={this.props.clients}
       />
     );
   }
 }
 
-export default connect(({ products, categories }) => ({
-  products,
-  categories
+export default connect(({ clients }) => ({
+  clients
 }))(LocalTable);

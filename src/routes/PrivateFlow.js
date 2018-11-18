@@ -12,9 +12,9 @@ import {
 } from "antd";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import { USER_DB } from "../configs";
-import { userLoggedOut, updateCategory, updateProducts } from "../actions";
+import * as actions from "../actions";
 import { DB } from "../configs/database";
-import { Products, Categories } from "../pages";
+import { Products, Categories, Clients, Orders } from "../pages";
 
 const { Header, Content, Sider } = Layout;
 const MenuItem = Menu.Item;
@@ -33,7 +33,6 @@ const menuNotifications = (
 //function to make the data the right way
 const arrangeData = data => {
   const _rowType = Object.keys(data)[0];
-  console.log(data);
   return data[_rowType].map(e => ({ ...e, key: e.id, _rowType }));
 };
 
@@ -50,6 +49,14 @@ class PrivateFlow extends Component {
         path: this.props.match.url + "/products"
       },
       {
+        component: Clients,
+        path: this.props.match.url + "/clients"
+      },
+      {
+        component: Orders,
+        path: this.props.match.url + "/orders"
+      },
+      {
         component: Dashboard,
         path: "/"
       }
@@ -60,9 +67,14 @@ class PrivateFlow extends Component {
     const { menuCollapsed } = this.state;
     return (
       <Layout>
-        <Sider collapsedWidth={50} collapsed={menuCollapsed} width={250}>
+        <Sider
+          collapsedWidth={50}
+          collapsed={menuCollapsed}
+          width={250}
+          style={{ boxShadow: "0 0 30px rgba(0,0,0,.1)", zIndex: 10 }}
+        >
           <h2
-            style={{ height: 50, backgroundColor: "#4a27f7", color: "white" }}
+            style={{ height: 50, backgroundColor: "#3c63fe", color: "white" }}
             className="mb-0 flex middle center logo-h2"
           >
             {menuCollapsed ? (
@@ -94,7 +106,7 @@ class PrivateFlow extends Component {
             </div>
             {this.menuRight()}
           </Header>
-          <Content style={{ padding: "0 10px" }}>
+          <Content>
             <Switch>
               {this.state.flow.map(r => (
                 <Route key={r.path} {...r} />
@@ -122,6 +134,12 @@ class PrivateFlow extends Component {
             .find("products")
             .then(arrangeData)
             .then(this.props.updateProducts);
+
+          //Clients
+          DB.rel
+            .find("clients")
+            .then(arrangeData)
+            .then(this.props.updateClients);
         });
       }
     );
@@ -235,5 +253,5 @@ class PrivateFlow extends Component {
 
 export default connect(
   ({ currentUser }) => ({ currentUser }),
-  { logout: userLoggedOut, updateCategory, updateProducts }
+  { logout: actions.userLoggedOut, ...actions }
 )(PrivateFlow);

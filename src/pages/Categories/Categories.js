@@ -6,7 +6,7 @@ import PageHeader from "../../components/auth/PageHeader";
 class Categories extends Component {
   render() {
     return (
-      <div>
+      <div className="px-3">
         <PageHeader title="Category" FormElement={CatForm} />
         <CatTable />
       </div>

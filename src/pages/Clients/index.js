@@ -3,15 +3,15 @@ import LocalForm from "./LocalForm";
 import LocalTable from "./LocalTable";
 import PageHeader from "../../components/auth/PageHeader";
 
-class Products extends Component {
+class Clients extends Component {
   render() {
     return (
       <div className="px-3">
-        <PageHeader title="Produits" FormElement={LocalForm} />
+        <PageHeader title="Clients" FormElement={LocalForm} />
         <LocalTable />
       </div>
     );
   }
 }
 
-export { Products };
+export { Clients };
