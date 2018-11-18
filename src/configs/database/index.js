@@ -11,7 +11,24 @@ DB.setSchema([
     plural: "categories"
   },
   {
-    singular: "user",
-    plural: "users"
+    singular: "product",
+    plural: "products",
+    relations: {
+      category: { belongsTo: "category" }
+    }
+  },
+  {
+    singular: "client",
+    plural: "clients",
+    relations: {
+      orders: { hasMany: "order" }
+    }
+  },
+  {
+    singular: "order",
+    plural: "orders",
+    relations: {
+      client: { belongsTo: "client" }
+    }
   }
 ]);

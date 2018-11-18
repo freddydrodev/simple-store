@@ -17,19 +17,48 @@ class LocalForm extends Component {
       console.log(values);
       const ref = generateID(5, "upper_num");
       if (!err) {
-        DB.put({
-          _id: ref,
-          image: name.trim(),
-          name: name.trim(),
-          category: category ? category : "Aucune categorie",
-          price: price,
-          quantity: quantity,
-          madeBy: this.props.currentUser.name,
-          madeSince: new Date(),
-          type: "product"
-        }).then(() => {
-          form.resetFields();
+        console.log("id", category);
+        DB.rel.find("categories", category).then(({ categories }) => {
+          const cat =
+            categories.length > 0 ? categories[0] : "Aucune categorie";
+          console.log("[DATA]", {
+            id: ref,
+            image: name.trim(),
+            name: name.trim(),
+            price: price,
+            quantity: quantity,
+            madeBy: this.props.currentUser.name,
+            madeSince: new Date()
+          });
+          DB.rel
+            .save("products", {
+              id: ref,
+              image: name.trim(),
+              name: name.trim(),
+              category: cat,
+              price: price,
+              quantity: quantity,
+              madeBy: this.props.currentUser.name,
+              madeSince: new Date()
+            })
+            .then(() => {
+              form.resetFields();
+            });
         });
+        // DB.rel
+        //   .save("products", {
+        //     id: ref,
+        //     image: name.trim(),
+        //     name: name.trim(),
+        //     category: category ? category : "Aucune categorie",
+        //     price: price,
+        //     quantity: quantity,
+        //     madeBy: this.props.currentUser.name,
+        //     madeSince: new Date()
+        //   })
+        //   .then(() => {
+        //     form.resetFields();
+        //   });
       }
     });
   };
@@ -50,10 +79,12 @@ class LocalForm extends Component {
           })(<Input />)}
         </FormItem>
         <FormItem label="Categorie du produit" required>
-          {getFieldDecorator("category")(
+          {getFieldDecorator("category", {
+            initialValue: this.props.categories[0].id
+          })(
             <Select>
-              {this.props.categories.map(({ name, _id }) => (
-                <Option key={_id} value={name}>
+              {this.props.categories.map(({ name, id }) => (
+                <Option key={id} value={id}>
                   {name}
                 </Option>
               ))}

@@ -30,6 +30,13 @@ const menuNotifications = (
   </Menu>
 );
 
+//function to make the data the right way
+const arrangeData = data => {
+  const _rowType = Object.keys(data)[0];
+  console.log(data);
+  return data[_rowType].map(e => ({ ...e, key: e.id, _rowType }));
+};
+
 class PrivateFlow extends Component {
   state = {
     menuCollapsed: false,
@@ -102,19 +109,19 @@ class PrivateFlow extends Component {
   componentDidMount() {
     DB.changes({ since: 0, live: true, include_docs: true }).on(
       "change",
-      data => {
-        DB.allDocs({ include_docs: true }).then(docs => {
-          const _db = docs.rows.map(({ doc }) => ({ key: doc._id, ...doc }));
-          const category = _db.filter(e => e.type === "category");
-          const products = _db.filter(e => e.type === "product");
-          this.props.updateCategory(category);
-          this.props.updateProducts(products);
+      () => {
+        DB.allDocs({ include_docs: true }).then(() => {
+          //categories
+          DB.rel
+            .find("categories")
+            .then(arrangeData)
+            .then(this.props.updateCategory);
 
-          if (!data.deleted) {
-            console.log("[update _db]", _db);
-            console.log("[update category]", category);
-            console.log("[update products]", products);
-          }
+          //Products
+          DB.rel
+            .find("products")
+            .then(arrangeData)
+            .then(this.props.updateProducts);
         });
       }
     );

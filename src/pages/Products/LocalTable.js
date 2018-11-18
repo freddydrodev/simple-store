@@ -9,10 +9,10 @@ class LocalTable extends Component {
     columns: [
       {
         title: "Ref",
-        dataIndex: "_id",
-        key: "_id",
+        dataIndex: "id",
+        key: "id",
         render: (text, record, id) => (
-          <DynamicCell value={text} data={record} row="_id" />
+          <DynamicCell value={text} data={record} row="id" />
         )
       },
       {

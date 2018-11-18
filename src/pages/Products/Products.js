@@ -7,7 +7,7 @@ class Products extends Component {
   render() {
     return (
       <div>
-        <PageHeader title="Category" FormElement={LocalForm} />
+        <PageHeader title="Produits" FormElement={LocalForm} />
         <LocalTable />
       </div>
     );

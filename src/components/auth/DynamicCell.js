@@ -10,7 +10,7 @@ class DynamicCell extends Component {
   };
 
   updateDataHandler = () => {
-    DB.put({
+    DB.rel.save(this.props.data._rowType, {
       ...this.props.data,
       [this.props.row]: this.state.value || this.props.value
     });
@@ -62,8 +62,8 @@ class DynamicCell extends Component {
             onChange={this.updateValue}
             onBlur={this.updateDataHandler}
           >
-            {select.map(({ name, _id }) => (
-              <Option key={_id} value={name}>
+            {select.map(({ name, id }) => (
+              <Option key={id} value={id}>
                 {name}
               </Option>
             ))}

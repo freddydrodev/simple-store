@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Input } from "antd";
+import { Form, Input, notification } from "antd";
 import { connect } from "react-redux";
 import { DB } from "../../configs/database";
 import { updateCategory } from "../../actions";
@@ -13,15 +13,24 @@ class CatForm extends Component {
     form.validateFields((err, values) => {
       const { name } = values;
       if (!err) {
-        DB.put({
-          _id: name.trim(),
-          name: name.trim(),
-          madeBy: this.props.currentUser.name,
-          madeSince: new Date(),
-          type: "category"
-        }).then(() => {
-          form.resetFields();
-        });
+        DB.rel
+          .save("categories", {
+            id: name.trim().toLowerCase(),
+            name: name.trim().toLowerCase(),
+            madeBy: this.props.currentUser.name,
+            madeSince: new Date()
+          })
+          .then(() => {
+            form.resetFields();
+          })
+          .catch(err => {
+            if (err.status === 409) {
+              notification.error({
+                message: "Erreur",
+                description: "Cette categorie existe deja"
+              });
+            }
+          });
       }
     });
   };

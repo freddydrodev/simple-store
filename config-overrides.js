@@ -1,11 +1,21 @@
 const { injectBabelPlugin } = require("react-app-rewired");
+const rewireAliases = require("react-app-rewire-aliases");
 const rewireLess = require("react-app-rewire-less");
+const path = require("path");
 
 module.exports = function override(config, env) {
   config = injectBabelPlugin(
     ["import", { libraryName: "antd", style: true }],
     config
   );
+
+  //config for alias (to make relational pouch db work properly)
+  config = rewireAliases.aliasesOptions({
+    "pouchdb-promise": path.join(
+      __dirname,
+      "/node_modules/pouchdb-promise/lib/index.js"
+    )
+  })(config, env);
 
   // change importing css to less
   config = rewireLess.withLoaderOptions({

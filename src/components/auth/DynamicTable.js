@@ -5,7 +5,7 @@ import { DB } from "../../configs";
 
 class DynamicTable extends Component {
   deleteDataHandler = r => {
-    DB.remove({ ...r });
+    DB.rel.del(r._rowType, { ...r });
   };
 
   render() {
