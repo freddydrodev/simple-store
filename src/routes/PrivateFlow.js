@@ -140,6 +140,12 @@ class PrivateFlow extends Component {
             .find("clients")
             .then(arrangeData)
             .then(this.props.updateClients);
+
+          //Orders
+          DB.rel
+            .find("orders")
+            .then(arrangeData)
+            .then(this.props.updateOrders);
         });
       }
     );
@@ -160,19 +166,18 @@ class PrivateFlow extends Component {
             <span>Dashboard</span>
           </Link>
         </MenuItem>
-        <MenuItem key="/app/employees">
+        {/* <MenuItem key="/app/employees">
           <Link to={url + "/employees"}>
             <Icon type="team" />
             <span>Employees</span>
           </Link>
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem key="/app/clients">
           <Link to={url + "/clients"}>
             <Icon type="user" />
             <span>Clients</span>
           </Link>
         </MenuItem>
-
         <MenuItem key="/app/categories">
           <Link to={url + "/categories"}>
             <Icon type="folder" />
@@ -196,17 +201,6 @@ class PrivateFlow extends Component {
             <Icon type="shopping-cart" />
             <span>Ventes</span>
           </Link>
-        </MenuItem>
-        <MenuItem key="/app/delivering">
-          <Link to={url + "/delivering"}>
-            <Icon type="calendar" />
-            <span>Livraisons</span>
-          </Link>
-        </MenuItem>
-
-        <MenuItem key="/app/calculator">
-          <Icon type="calculator" />
-          <span>Calculator</span>
         </MenuItem>
       </Menu>
     );

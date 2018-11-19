@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Input, Select, InputNumber } from "antd";
+import { Form, Input, Select } from "antd";
 import { connect } from "react-redux";
 import { DB } from "../../configs/database";
 

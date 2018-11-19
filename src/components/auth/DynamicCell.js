@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Input, InputNumber, Select, DatePicker } from "antd";
+import { Input, InputNumber, Select } from "antd";
 import PropTypes from "prop-types";
 import { DB } from "../../configs";
 
@@ -27,12 +27,10 @@ class DynamicCell extends Component {
     ) {
       this.setState({ value });
     }
-
-    // this.setState(value);
   };
 
   render() {
-    const { field, value, data, row, select } = this.props;
+    const { field, value, select } = this.props;
     let inp = null;
 
     switch (field) {

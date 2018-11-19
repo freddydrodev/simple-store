@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Form, Input, Select, InputNumber } from "antd";
 import { connect } from "react-redux";
 import { DB } from "../../configs/database";
-import { updateCategory, updateProducts } from "../../actions";
 import generateID from "../../tools/generateID";
 
 const FormItem = Form.Item;
@@ -14,22 +13,11 @@ class LocalForm extends Component {
 
     form.validateFields((err, values) => {
       const { name, category, price, quantity } = values;
-      console.log(values);
       const ref = generateID(5, "upper_num");
       if (!err) {
-        console.log("id", category);
         DB.rel.find("categories", category).then(({ categories }) => {
           const cat =
             categories.length > 0 ? categories[0] : "Aucune categorie";
-          console.log("[DATA]", {
-            id: ref,
-            image: name.trim(),
-            name: name.trim(),
-            price: price,
-            quantity: quantity,
-            madeBy: this.props.currentUser.name,
-            madeSince: new Date()
-          });
           DB.rel
             .save("products", {
               id: ref,
@@ -45,20 +33,6 @@ class LocalForm extends Component {
               form.resetFields();
             });
         });
-        // DB.rel
-        //   .save("products", {
-        //     id: ref,
-        //     image: name.trim(),
-        //     name: name.trim(),
-        //     category: category ? category : "Aucune categorie",
-        //     price: price,
-        //     quantity: quantity,
-        //     madeBy: this.props.currentUser.name,
-        //     madeSince: new Date()
-        //   })
-        //   .then(() => {
-        //     form.resetFields();
-        //   });
       }
     });
   };

@@ -4,7 +4,9 @@ import {
   USER_LOGGED_OUT,
   UPDATE_CATEGORY,
   UPDATE_PRODUCTS,
-  UPDATE_CLIENTS
+  UPDATE_CLIENTS,
+  UPDATE_ORDERS,
+  SELECT_ORDER
 } from "../actions/actionTypes";
 
 const reducers = combineReducers({
@@ -38,6 +40,22 @@ const reducers = combineReducers({
     switch (type) {
       case UPDATE_CLIENTS:
         return data;
+      default:
+        return state;
+    }
+  },
+  orders: (state = [], { type, data }) => {
+    switch (type) {
+      case UPDATE_ORDERS:
+        return data;
+      default:
+        return state;
+    }
+  },
+  selectedOrder: (state = null, { type, id }) => {
+    switch (type) {
+      case SELECT_ORDER:
+        return id;
       default:
         return state;
     }

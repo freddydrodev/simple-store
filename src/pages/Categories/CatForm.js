@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Form, Input, notification } from "antd";
 import { connect } from "react-redux";
 import { DB } from "../../configs/database";
-import { updateCategory } from "../../actions";
 
 const FormItem = Form.Item;
 

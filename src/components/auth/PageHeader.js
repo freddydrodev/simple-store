@@ -20,24 +20,31 @@ class PageHeader extends Component {
   };
 
   render() {
-    const { title, FormElement } = this.props;
+    const { title, FormElement, hideModal, titleStyle } = this.props;
+    const style = titleStyle || {};
     return (
       <div className="flex between middle py-3">
-        <h2 className="page-legend">{title}</h2>
-        <Button icon="plus" type="primary" onClick={this.modalShow} />
-        <Modal
-          visible={this.state.visible}
-          onCancel={this.modalHide}
-          onOk={this.save}
-          title="Ajouter Categorie"
-        >
-          <FormElement
-            save={this.save}
-            wrappedComponentRef={wrappedform =>
-              (this.wrappedForm = wrappedform)
-            }
-          />
-        </Modal>
+        <h2 className="page-legend" style={style}>
+          {title}
+        </h2>
+        {!hideModal && (
+          <React.Fragment>
+            <Button icon="plus" type="primary" onClick={this.modalShow} />
+            <Modal
+              visible={this.state.visible}
+              onCancel={this.modalHide}
+              onOk={this.save}
+              title="Ajouter Categorie"
+            >
+              <FormElement
+                save={this.save}
+                wrappedComponentRef={wrappedform =>
+                  (this.wrappedForm = wrappedform)
+                }
+              />
+            </Modal>
+          </React.Fragment>
+        )}
       </div>
     );
   }

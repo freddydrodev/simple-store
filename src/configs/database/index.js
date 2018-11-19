@@ -19,10 +19,7 @@ DB.setSchema([
   },
   {
     singular: "client",
-    plural: "clients",
-    relations: {
-      orders: { hasMany: "order" }
-    }
+    plural: "clients"
   },
   {
     singular: "order",
