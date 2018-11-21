@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Modal, Form, Select, Button, Avatar } from "antd";
+import { DB } from "../../configs";
+import { selectOrder } from "../../actions";
 
 const FormItem = Form.Item;
 
-const ArticleModalForm = connect(({ products }) => ({ products }))(
+const ArticleModalForm = connect(({ products, selectedOrder }) => ({
+  products,
+  selectedOrder
+}))(
   Form.create()(
     class extends Component {
       render() {
@@ -22,12 +27,23 @@ const ArticleModalForm = connect(({ products }) => ({ products }))(
                   rules: [{ required: true, message: "Ce champ est requis" }]
                 })(
                   <Select showSearch>
-                    {this.props.products.map(prod => (
-                      <Select.Option key={prod.id} value={prod.id}>
-                        <Avatar size="small">F</Avatar>
-                        <span className="pl-2">{prod.name}</span>
-                      </Select.Option>
-                    ))}
+                    {this.props.products.products
+                      //check if the product is not already in this order
+                      .filter(prod => {
+                        return (
+                          this.props.selectedOrder.products.indexOf(prod.id) ===
+                          -1
+                        );
+                      })
+                      //display the select option
+                      .map(prod => (
+                        <Select.Option key={prod.id} value={prod.id}>
+                          {/* <Avatar size="small">F</Avatar> */}
+                          <span className="pl-2">
+                            {prod.name} - {prod.price}
+                          </span>
+                        </Select.Option>
+                      ))}
                   </Select>
                 )}
               </FormItem>
@@ -54,9 +70,17 @@ class OrderAddArticleBtn extends Component {
 
   ok = () => {
     this.wrapedForm.props.form.validateFields((err, values) => {
+      const selectedOrder = this.props.selectedOrder;
+      const { product } = values;
       if (!err) {
-        console.log(values.product);
-        this.hide();
+        if (selectedOrder.products.indexOf(product) == -1) {
+          selectedOrder.products.push(product);
+          selectedOrder[product] = 0;
+          DB.rel
+            .save("orders", selectedOrder)
+            .then(({ orders }) => this.props.selectOrder(orders[0]))
+            .catch(err => err);
+        }
       }
     });
   };
@@ -76,4 +100,7 @@ class OrderAddArticleBtn extends Component {
   }
 }
 
-export default OrderAddArticleBtn;
+export default connect(
+  ({ selectedOrder }) => ({ selectedOrder }),
+  { selectOrder }
+)(OrderAddArticleBtn);

@@ -40,7 +40,7 @@ class LocalTable extends Component {
           <DynamicCell
             value={text}
             field="select"
-            select={this.props.categories}
+            select={this.props.categories.categories}
             data={record}
             row="category"
           />
@@ -90,7 +90,7 @@ class LocalTable extends Component {
     return (
       <DynamicTable
         columns={this.state.columns}
-        dataSource={this.props.products}
+        dataSource={this.props.products.products}
       />
     );
   }

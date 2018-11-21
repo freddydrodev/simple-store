@@ -9,13 +9,25 @@ import { DB } from "../../configs";
 
 class OrdersList extends Component {
   deleteOrder = () => {
-    const { orders, selectedOrder } = this.props;
+    const { orders, selectedOrder, selectOrder } = this.props;
     const activedItem = selectedOrder ? selectedOrder : orders[0];
-    DB.rel.del("orders", activedItem);
+    DB.rel
+      .del("orders", activedItem)
+      .then(() => {
+        DB.rel.find("orders").then(({ orders }) => {
+          if (orders.length > 0) {
+            selectOrder(orders[0]);
+          } else {
+            selectOrder(null);
+          }
+        });
+      })
+      .catch(() => {});
   };
+
   render() {
     const { orders, selectOrder, selectedOrder } = this.props;
-    const activedItem = selectedOrder ? selectedOrder : orders[0];
+
     return (
       <Col style={{ width: 350 }} className="h-100">
         <List
@@ -44,27 +56,24 @@ class OrdersList extends Component {
             </div>
           }
           itemLayout="vertical"
-          dataSource={orders}
+          dataSource={orders.orders}
           renderItem={(item, i) => {
-            const client = "Fred";
-            console.log(client);
             return (
               <List.Item
                 actions={[
                   <span>
                     <Icon type="shopping" className="mr-2" />
-                    12 articles
+                    {item.products.length} articles
                   </span>,
                   <span>
                     <Icon type="wallet" className="mr-2" />
-                    120000 Fr
+                    {item.total || 0} Fr
                   </span>
                 ]}
-                className={`px-3 py-2 pointer ${item.id === activedItem.id &&
+                className={`px-3 py-2 pointer ${selectedOrder &&
+                  item.id === selectedOrder.id &&
                   "bg-white"}`}
-                onClick={() => {
-                  selectOrder(item);
-                }}
+                onClick={() => selectOrder(item)}
               >
                 <List.Item.Meta
                   title={
@@ -74,7 +83,7 @@ class OrdersList extends Component {
                     >
                       <span className="small text-primary">{item.id}</span>
                       <p className="small mb-0">
-                        {moment(item.createAt).fromNow()}
+                        {moment(item.createdAt).fromNow()}
                       </p>
                     </span>
                   }

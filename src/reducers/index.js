@@ -52,10 +52,10 @@ const reducers = combineReducers({
         return state;
     }
   },
-  selectedOrder: (state = null, { type, id }) => {
+  selectedOrder: (state = null, { type, order }) => {
     switch (type) {
       case SELECT_ORDER:
-        return id;
+        return order || state;
       default:
         return state;
     }

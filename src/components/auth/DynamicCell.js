@@ -10,14 +10,21 @@ class DynamicCell extends Component {
   };
 
   updateDataHandler = () => {
-    DB.rel.save(this.props.data._rowType, {
-      ...this.props.data,
-      [this.props.row]: this.state.value || this.props.value
-    });
+    if (this.props.customChange) {
+      this.props.customChange(
+        this.props.data,
+        this.props.row,
+        this.state.value
+      );
+    } else {
+      DB.rel.save(this.props.data._rowType, {
+        ...this.props.data,
+        [this.props.row]: this.state.value || this.props.value
+      });
+    }
   };
 
   updateValue = value => {
-    console.log(value);
     if (this.props.field === "number" && typeof value === "number") {
       this.setState({ value });
     }
@@ -85,5 +92,5 @@ DynamicCell.propTypes = {
   data: PropTypes.object.isRequired,
   row: PropTypes.string.isRequired,
   select: PropTypes.array,
-  field: PropTypes.oneOf(["text", "number", "select", "date"])
+  field: PropTypes.oneOf(["text", "number", "select", "date", "read"])
 };

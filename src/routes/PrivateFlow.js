@@ -33,7 +33,8 @@ const menuNotifications = (
 //function to make the data the right way
 const arrangeData = data => {
   const _rowType = Object.keys(data)[0];
-  return data[_rowType].map(e => ({ ...e, key: e.id, _rowType }));
+  const newRow = data[_rowType].map(e => ({ ...e, key: e.id, _rowType }));
+  return { ...data, [_rowType]: newRow };
 };
 
 class PrivateFlow extends Component {

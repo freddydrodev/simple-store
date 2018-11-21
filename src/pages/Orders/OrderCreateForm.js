@@ -26,11 +26,12 @@ const ArticleModalForm = connect(({ clients }) => ({ clients }))(
                   rules: [{ required: true, message: "Ce champ est requis" }]
                 })(
                   <Select showSearch>
-                    {clients.map(client => (
-                      <Select.Option key={client.id} value={client.id}>
-                        {client.name} / {client.contact}
-                      </Select.Option>
-                    ))}
+                    {clients.clients &&
+                      clients.clients.map(client => (
+                        <Select.Option key={client.id} value={client.id}>
+                          {client.name} / {client.contact}
+                        </Select.Option>
+                      ))}
                   </Select>
                 )}
               </FormItem>
@@ -60,17 +61,18 @@ class OrderCreateForm extends Component {
       if (!err) {
         const ref = generateID(5, "upper_num");
         const { client } = values;
-        DB.rel.find("clients", client).then(({ clients }) => {
+        DB.rel.find("clients", client).then(clients => {
           DB.rel
             .save("orders", {
               id: ref,
-              client: clients[0],
-              createAt: new Date(),
-              createBy: this.props.currentUser.name
+              total: 0,
+              client: clients.clients[0].id,
+              products: [],
+              createdAt: new Date(),
+              createdBy: this.props.currentUser.name
             })
             .then(data => {
-              console.log("[Added]", data);
-              this.props.selectOrder(data);
+              this.props.selectOrder(data.orders[0]);
             });
         });
 

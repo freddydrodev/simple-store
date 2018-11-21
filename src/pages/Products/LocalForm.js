@@ -54,10 +54,10 @@ class LocalForm extends Component {
         </FormItem>
         <FormItem label="Categorie du produit" required>
           {getFieldDecorator("category", {
-            initialValue: this.props.categories[0].id
+            rules: [{ required: true, message: "Selectionnez une categorie" }]
           })(
             <Select>
-              {this.props.categories.map(({ name, id }) => (
+              {this.props.categories.categories.map(({ name, id }) => (
                 <Option key={id} value={id}>
                   {name}
                 </Option>
