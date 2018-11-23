@@ -7,7 +7,7 @@ class Categories extends Component {
   render() {
     return (
       <div className="px-3">
-        <PageHeader title="Category" FormElement={CatForm} />
+        <PageHeader title="Categorie" FormElement={CatForm} />
         <CatTable />
       </div>
     );

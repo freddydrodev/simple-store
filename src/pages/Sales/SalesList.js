@@ -7,10 +7,10 @@ import OrderCreateForm from "./OrderCreateForm";
 import { selectOrder } from "../../actions";
 import { DB } from "../../configs";
 
-class OrdersList extends Component {
+class SalesList extends Component {
   deleteOrder = () => {
-    const { orders, selectedOrder, selectOrder } = this.props;
-    const activedItem = selectedOrder ? selectedOrder : orders[0];
+    const { Sales, selectedOrder, selectOrder } = this.props;
+    const activedItem = selectedOrder ? selectedOrder : Sales[0];
     DB.rel
       .del("orders", activedItem)
       .then(() => {
@@ -25,21 +25,21 @@ class OrdersList extends Component {
       .catch(() => {});
   };
 
-  sold = () => {
-    const { selectedOrder } = this.props;
-    // const activedItem = selectedOrder ? selectedOrder : orders[0];
-    if (selectedOrder) {
-      selectedOrder.sold = true;
-      DB.rel.save("orders", selectedOrder).then(res => {
-        console.log(res);
-      });
-    } else {
-      console.log("[NOT ORDER SELECTED]");
-    }
-  };
+  // sold = () => {
+  //   const { selectedOrder } = this.props;
+  //   // const activedItem = selectedOrder ? selectedOrder : Sales[0];
+  //   if (selectedOrder) {
+  //     selectedOrder.sold = true;
+  //     DB.rel.save("Sales", selectedOrder).then(res => {
+  //       console.log(res);
+  //     });
+  //   } else {
+  //     console.log("[NOT ORDER SELECTED]");
+  //   }
+  // };
 
   render() {
-    const { orders, selectOrder, selectedOrder } = this.props;
+    const { sales, selectOrder, selectedOrder } = this.props;
 
     return (
       <Col style={{ width: 350 }} className="h-100">
@@ -47,19 +47,11 @@ class OrdersList extends Component {
           header={
             <div className="flex middle w-100 between px-3">
               <PageHeader
-                title="Commandes"
+                title="Ventes"
                 hideModal
                 titleStyle={{ marginBottom: 0 }}
               />
               <div>
-                <OrderCreateForm />
-                <Button
-                  icon="shopping-cart"
-                  shape="circle-outline"
-                  type="success"
-                  className="mr-2"
-                  onClick={this.sold}
-                />
                 <Button
                   icon="delete"
                   shape="circle-outline"
@@ -70,7 +62,7 @@ class OrdersList extends Component {
             </div>
           }
           itemLayout="vertical"
-          dataSource={orders.orders}
+          dataSource={sales.orders}
           renderItem={(item, i) => {
             return (
               <List.Item
@@ -112,9 +104,9 @@ class OrdersList extends Component {
 }
 
 export default connect(
-  ({ orders, selectedOrder }) => ({
-    orders,
+  ({ sales, selectedOrder }) => ({
+    sales,
     selectedOrder
   }),
   { selectOrder }
-)(OrdersList);
+)(SalesList);

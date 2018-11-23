@@ -15,6 +15,7 @@ import { USER_DB } from "../configs";
 import * as actions from "../actions";
 import { DB } from "../configs/database";
 import { Products, Categories, Clients, Orders } from "../pages";
+import { Sales } from "../pages/Sales";
 
 const { Header, Content, Sider } = Layout;
 const MenuItem = Menu.Item;
@@ -56,6 +57,10 @@ class PrivateFlow extends Component {
       {
         component: Orders,
         path: this.props.match.url + "/orders"
+      },
+      {
+        component: Sales,
+        path: this.props.match.url + "/sales"
       },
       {
         component: Dashboard,
@@ -146,7 +151,23 @@ class PrivateFlow extends Component {
           DB.rel
             .find("orders")
             .then(arrangeData)
+            .then(data => {
+              const orders = data.orders.filter(order => !!!order.sold);
+              data.orders = orders;
+              return data;
+            })
             .then(this.props.updateOrders);
+
+          //Sales
+          DB.rel
+            .find("orders")
+            .then(arrangeData)
+            .then(data => {
+              const orders = data.orders.filter(order => !!order.sold);
+              data.orders = orders;
+              return data;
+            })
+            .then(this.props.updateSales);
         });
       }
     );
@@ -161,12 +182,12 @@ class PrivateFlow extends Component {
         mode="inline"
         style={{ height: "calc(100vh - 72px)" }}
       >
-        <MenuItem key="/app">
+        {/* <MenuItem key="/app">
           <Link to={url}>
             <Icon type="pie-chart" />
             <span>Dashboard</span>
           </Link>
-        </MenuItem>
+        </MenuItem> */}
         {/* <MenuItem key="/app/employees">
           <Link to={url + "/employees"}>
             <Icon type="team" />

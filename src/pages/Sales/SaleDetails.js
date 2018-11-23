@@ -12,49 +12,39 @@ class OrderDetails extends Component {
   state = {
     products: [],
     activedItem: 0,
-    currentOrder: [
-      {
-        name: "_addField_",
-        price: "_addField_",
-        key: "_addField_",
-        quantity: "_addField_",
-        total: "_addField_"
-      }
-    ],
+    currentOrder: [],
     columns: [
       {
         dataIndex: "name",
         title: "Article",
         key: "name",
-        render: (text, record, index) => {
-          if (index >= this.state.currentOrder.length - 1) {
-            return {
-              children: <OrderAddArticleBtn />,
-              props: { colSpan: 5 }
-            };
-          }
-          return <DynamicCell value={text} data={record} row="name" />;
-        }
+        render: (text, record, index) => (
+          <DynamicCell value={text} data={record} row="name" />
+        )
       },
       {
         dataIndex: "price",
         title: "Prix",
         key: "price",
-        render: (text, record, index) =>
-          this.hideEl(text, record, index, "price")
+        render: (text, record, index) => (
+          <DynamicCell value={text} data={record} row="price" />
+        )
       },
       {
         dataIndex: "quantity",
         title: "Quantite",
         key: "quantity",
-        render: (text, record, index) =>
-          this.hideEl(text, record, index, record.id, "number")
+        render: (text, record, index) => (
+          <DynamicCell value={text} data={record} row={record.id} />
+        )
       },
       {
         dataIndex: "total",
         title: "Total",
         key: "total",
-        render: (text, record, index) => this.hideEl(text, record, index)
+        render: (text, record, index) => (
+          <DynamicCell value={text} data={record} row="total" />
+        )
       }
     ]
   };
@@ -121,16 +111,15 @@ class OrderDetails extends Component {
                   quantity: selectedOrder[prodID],
                   total: prod.price * selectedOrder[prodID]
                 }))[0]
-          ), //add the btn at the end
-          { product: "_addField_", key: "_addField_" }
+          )
         ];
         // console.log(currentOrder);
         return { currentOrder };
       }
       // console.log("[Derived]", nextProps);
-      return { currentOrder: [{ product: "_addField_", key: "_addField_" }] };
+      return { currentOrder: [] };
     } else {
-      return { currentOrder: [{ product: "_addField_", key: "_addField_" }] };
+      return { currentOrder: [] };
     }
   }
 

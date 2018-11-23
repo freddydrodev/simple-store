@@ -6,7 +6,8 @@ import {
   UPDATE_PRODUCTS,
   UPDATE_CLIENTS,
   UPDATE_ORDERS,
-  SELECT_ORDER
+  SELECT_ORDER,
+  UPDATE_SALES
 } from "../actions/actionTypes";
 
 const reducers = combineReducers({
@@ -47,6 +48,14 @@ const reducers = combineReducers({
   orders: (state = [], { type, data }) => {
     switch (type) {
       case UPDATE_ORDERS:
+        return data;
+      default:
+        return state;
+    }
+  },
+  sales: (state = [], { type, data }) => {
+    switch (type) {
+      case UPDATE_SALES:
         return data;
       default:
         return state;
