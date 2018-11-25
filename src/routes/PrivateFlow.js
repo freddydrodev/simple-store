@@ -63,7 +63,7 @@ class PrivateFlow extends Component {
         path: this.props.match.url + "/sales"
       },
       {
-        component: Dashboard,
+        component: Clients,
         path: "/"
       }
     ]
