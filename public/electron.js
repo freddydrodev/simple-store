@@ -11,6 +11,7 @@ const createWindow = () => {
     minWidth: 880,
     show: false,
     // frame: false,
+    fullscreen: true,
     titleBarStyle: "hidden",
     webPreferences: {
       nodeIntegration: false

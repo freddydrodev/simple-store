@@ -53,8 +53,6 @@ h2 {
   border-color: #ff7b7e !important;
 }
 .titlebar {
-  -webkit-user-select: none;
-  -webkit-app-region: drag;
   background-color: white;
   height: 22px;
   font-size: 14px;
@@ -62,9 +60,13 @@ h2 {
   border-bottom: 1px solid #f0f0f0;
   text-align: center;
 }
+.titlebar > span {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
 .container {
   height: ~"calc(100vh - 22px)";
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 //private page

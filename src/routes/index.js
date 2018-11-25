@@ -1,3 +1,4 @@
+// /*global Android*/
 import React, { Component } from "react";
 import {
   Switch,
@@ -11,6 +12,9 @@ import AuthFlow from "./AuthFlow";
 import { USER_DB } from "../configs";
 import LoadingScreen from "../components/common/LoadingScreen";
 import { userLoggedIn, userLoggedOut } from "../actions";
+// import { Button, Icon } from "antd";
+
+// const electron = window.require("electron");
 
 class Routes extends Component {
   state = {
@@ -53,7 +57,29 @@ class Routes extends Component {
 
     return isReady ? (
       <React.Fragment>
-        <div className="titlebar">Bellise Style</div>
+        {/* <div className="titlebar flex">
+          <span
+            style={{
+              display: "flex",
+              flex: 1,
+              textAlign: "center",
+              justifyContent: "center"
+            }}
+          >
+            Bellise Style
+          </span>
+          <Button
+            size="small"
+            className="border-0 py-0 rounded-0"
+            style={{ height: 20, background: "#ff4d4f", cursor: "pointer" }}
+            onClick={() => electron.app.quit()}
+          >
+            <Icon
+              style={{ fontSize: 15, lineHeight: "20px", color: "white" }}
+              type="close"
+            />
+          </Button>
+        </div> */}
         <div className="container">
           <Router>
             <Switch>
