@@ -3,40 +3,56 @@ import { Col, List, Button, Icon } from "antd";
 import moment from "moment";
 import { connect } from "react-redux";
 import PageHeader from "../../components/auth/PageHeader";
-import OrderCreateForm from "./OrderCreateForm";
 import { selectOrder } from "../../actions";
 import { DB } from "../../configs";
 
 class SalesList extends Component {
-  deleteOrder = () => {
-    const { Sales, selectedOrder, selectOrder } = this.props;
-    const activedItem = selectedOrder ? selectedOrder : Sales[0];
-    DB.rel
-      .del("orders", activedItem)
-      .then(() => {
-        DB.rel.find("orders").then(({ orders }) => {
-          if (orders.length > 0) {
-            selectOrder(orders[0]);
-          } else {
-            selectOrder(null);
-          }
-        });
-      })
-      .catch(() => {});
+  state = {
+    deletable: false
   };
 
-  // sold = () => {
-  //   const { selectedOrder } = this.props;
-  //   // const activedItem = selectedOrder ? selectedOrder : Sales[0];
-  //   if (selectedOrder) {
-  //     selectedOrder.sold = true;
-  //     DB.rel.save("Sales", selectedOrder).then(res => {
-  //       console.log(res);
-  //     });
-  //   } else {
-  //     console.log("[NOT ORDER SELECTED]");
-  //   }
-  // };
+  setDeletable = () => {
+    DB.rel.find("orders").then(({ orders }) => {
+      const os = orders.filter(o => o.sold);
+      if (os.length > 0) {
+        selectOrder(os[0]);
+        if (!this.state.deletable) {
+          this.setState({ deletable: true });
+        }
+      } else {
+        this.setState({ deletable: false });
+        selectOrder(null);
+      }
+    });
+  };
+
+  deleteOrder = () => {
+    const { sales, selectedOrder } = this.props;
+    if (sales) {
+      const activedItem = selectedOrder ? selectedOrder : sales.orders[0];
+      DB.rel
+        .del("orders", activedItem)
+        .then(() => {
+          this.setDeletable();
+          activedItem.products.forEach(prod => {
+            DB.rel.find("products", prod).then(({ products }) => {
+              const product = products[0];
+              product.quantity += activedItem[prod];
+              DB.rel.save("products", product);
+            });
+          });
+        })
+        .catch(() => {});
+    }
+  };
+
+  componentDidMount() {
+    const { orders } = this.props.sales;
+    if (orders) {
+      selectOrder(orders[0] || null);
+    }
+    this.setDeletable();
+  }
 
   render() {
     const { sales, selectOrder, selectedOrder } = this.props;
@@ -51,14 +67,16 @@ class SalesList extends Component {
                 hideModal
                 titleStyle={{ marginBottom: 0 }}
               />
-              <div>
-                <Button
-                  icon="delete"
-                  shape="circle-outline"
-                  type="danger"
-                  onClick={this.deleteOrder}
-                />
-              </div>
+              {this.state.deletable && (
+                <div>
+                  <Button
+                    icon="delete"
+                    shape="circle-outline"
+                    type="danger"
+                    onClick={this.deleteOrder}
+                  />
+                </div>
+              )}
             </div>
           }
           itemLayout="vertical"

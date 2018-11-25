@@ -47,7 +47,7 @@ class CatTable extends Component {
     return (
       <DynamicTable
         columns={this.state.columns}
-        dataSource={this.props.categories.categories}
+        dataSource={this.props.categories.categories || []}
       />
     );
   }

@@ -53,7 +53,7 @@ class Routes extends Component {
 
     return isReady ? (
       <React.Fragment>
-        {/* <div className="titlebar">Bellise Style</div> */}
+        <div className="titlebar">Bellise Style</div>
         <div className="container">
           <Router>
             <Switch>
@@ -69,7 +69,7 @@ class Routes extends Component {
                   !currentUser ? (
                     <AuthFlow {...props} />
                   ) : (
-                    <Redirect to="/app" />
+                    <Redirect to="/app/products" />
                   )
                 }
               />

@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Col, Divider } from "antd";
 import moment from "moment";
 import DynamicTable from "../../components/auth/DynamicTable";
-import OrderAddArticleBtn from "./OrdersArticleForm";
 import DynamicCell from "../../components/auth/DynamicCell";
 import { DB } from "../../configs";
 import { selectOrder } from "../../actions";
@@ -95,23 +94,25 @@ class OrderDetails extends Component {
     const { orders } = nextProps;
     // console.log(prevState.selectedOrder, nextProps.selectedOrder);
     let selectedOrder =
-      prevState.selectedOrder != nextProps.selectedOrder
+      prevState.selectedOrder !== nextProps.selectedOrder
         ? nextProps.selectedOrder
         : prevState.selectedOrder;
     if (selectedOrder) {
       if (selectedOrder.products.length > 0) {
         const currentOrder = [
-          ...selectedOrder.products.map(
-            prodID =>
-              orders.products
-                .filter(op => op.id === prodID)
-                .map(prod => ({
-                  ...prod,
-                  key: prodID,
-                  quantity: selectedOrder[prodID],
-                  total: prod.price * selectedOrder[prodID]
-                }))[0]
-          )
+          ...selectedOrder.products.map(prodID => {
+            if (!orders.products) {
+              return null;
+            }
+            return orders.products
+              .filter(op => op.id === prodID)
+              .map(prod => ({
+                ...prod,
+                key: prodID,
+                quantity: selectedOrder[prodID],
+                total: prod.price * selectedOrder[prodID]
+              }))[0];
+          })
         ];
         // console.log(currentOrder);
         return { currentOrder };
@@ -132,7 +133,7 @@ class OrderDetails extends Component {
       : null;
 
     // console.log(orders.products);
-    return client ? (
+    return client && selectedOrder.sold ? (
       <Col style={{ flex: 1 }} className="bg-white p-3 h-100">
         <h2 className="mb-0 text-primary">{selectedOrder.id}</h2>
         <h3 className="opac-5 small">
