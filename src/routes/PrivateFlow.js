@@ -1,16 +1,7 @@
 import React, { Component } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import { connect } from "react-redux";
-import {
-  Layout,
-  Button,
-  Avatar,
-  Menu,
-  Dropdown,
-  Icon,
-  notification
-} from "antd";
-import Dashboard from "../pages/Dashboard/Dashboard";
+import { Layout, Button, Menu, Icon, notification } from "antd";
 import { USER_DB } from "../configs";
 import * as actions from "../actions";
 import { DB } from "../configs/database";
@@ -19,17 +10,6 @@ import { Sales } from "../pages/Sales";
 
 const { Header, Content, Sider } = Layout;
 const MenuItem = Menu.Item;
-const MenuItemGroup = Menu.ItemGroup;
-
-const menuNotifications = (
-  <Menu>
-    <MenuItemGroup title="Notifications">
-      <MenuItem>Notification one</MenuItem>
-      <MenuItem>Notification two</MenuItem>
-      <MenuItem>Notification three</MenuItem>
-    </MenuItemGroup>
-  </Menu>
-);
 
 //function to make the data the right way
 const arrangeData = data => {
@@ -63,7 +43,7 @@ class PrivateFlow extends Component {
         path: this.props.match.url + "/sales"
       },
       {
-        component: Clients,
+        component: Products,
         path: "/"
       }
     ]
@@ -103,7 +83,7 @@ class PrivateFlow extends Component {
                     menuCollapsed: !menuCollapsed
                   })
                 }
-                icon={menuCollapsed ? "align-right" : "align-left"}
+                icon={menuCollapsed ? "right" : "left"}
                 size="large"
                 shape="circle"
                 style={{ width: 40 }}
@@ -176,24 +156,13 @@ class PrivateFlow extends Component {
   menuLeft = () => {
     const { location, match } = this.props;
     const { url } = match;
+
     return (
       <Menu
         defaultSelectedKeys={[location.pathname]}
         mode="inline"
         style={{ height: "calc(100vh - 72px)" }}
       >
-        {/* <MenuItem key="/app">
-          <Link to={url}>
-            <Icon type="pie-chart" />
-            <span>Dashboard</span>
-          </Link>
-        </MenuItem> */}
-        {/* <MenuItem key="/app/employees">
-          <Link to={url + "/employees"}>
-            <Icon type="team" />
-            <span>Employees</span>
-          </Link>
-        </MenuItem> */}
         <MenuItem key="/app/clients">
           <Link to={url + "/clients"}>
             <Icon type="user" />
@@ -230,25 +199,7 @@ class PrivateFlow extends Component {
 
   menuRight = () => (
     <Menu mode="horizontal" className="appMenuRight">
-      <MenuItem>
-        <Dropdown
-          getPopupContainer={() => document.querySelector(".header-app")}
-          overlay={menuNotifications}
-          trigger={["click"]}
-          placement="bottomCenter"
-        >
-          <Button shape="circle" type="ghost" className="border-transparent">
-            <Icon
-              type="bell"
-              style={{ fontSize: 20, textAlign: "center", marginRight: 0 }}
-            />
-          </Button>
-        </Dropdown>
-      </MenuItem>
-      <MenuItem>
-        <Avatar className="mr-2">FT</Avatar>
-        {this.props.currentUser.name}
-      </MenuItem>
+      <MenuItem>{this.props.currentUser.name}</MenuItem>
       <MenuItem>
         <Button
           type="primary"

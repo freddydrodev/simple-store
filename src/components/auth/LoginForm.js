@@ -19,7 +19,6 @@ class LoginForm extends Component {
         USER_DB.logIn(username, password)
           .then(res => {
             this.props.login(res);
-            this.props.login(res);
             notification.open({
               message: (
                 <span>

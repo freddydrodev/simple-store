@@ -90,7 +90,7 @@ class LocalTable extends Component {
     return (
       <DynamicTable
         columns={this.state.columns}
-        dataSource={this.props.products.products}
+        dataSource={this.props.products.products || []}
       />
     );
   }

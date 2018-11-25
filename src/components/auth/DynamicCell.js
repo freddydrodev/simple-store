@@ -54,6 +54,7 @@ class DynamicCell extends Component {
         inp = (
           <InputNumber
             min={0}
+            max={this.props.max || Infinity}
             value={this.state.value || value}
             onChange={this.updateValue}
             onBlur={this.updateDataHandler}

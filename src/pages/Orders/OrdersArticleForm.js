@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Modal, Form, Select, Button, Avatar } from "antd";
+import { Modal, Form, Select, Button } from "antd";
 import { DB } from "../../configs";
 import { selectOrder } from "../../actions";
 
@@ -32,7 +32,7 @@ const ArticleModalForm = connect(({ products, selectedOrder }) => ({
                       .filter(prod => {
                         return (
                           this.props.selectedOrder.products.indexOf(prod.id) ===
-                          -1
+                            -1 && prod.quantity > 0
                         );
                       })
                       //display the select option
@@ -40,7 +40,8 @@ const ArticleModalForm = connect(({ products, selectedOrder }) => ({
                         <Select.Option key={prod.id} value={prod.id}>
                           {/* <Avatar size="small">F</Avatar> */}
                           <span className="pl-2">
-                            {prod.name} - {prod.price}
+                            {prod.name} - {prod.price} ({prod.quantity}{" "}
+                            Disponible(s))
                           </span>
                         </Select.Option>
                       ))}
@@ -73,7 +74,7 @@ class OrderAddArticleBtn extends Component {
       const selectedOrder = this.props.selectedOrder;
       const { product } = values;
       if (!err) {
-        if (selectedOrder.products.indexOf(product) == -1) {
+        if (selectedOrder.products.indexOf(product) === -1) {
           selectedOrder.products.push(product);
           selectedOrder[product] = 0;
           DB.rel

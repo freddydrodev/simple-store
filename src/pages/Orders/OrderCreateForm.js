@@ -73,6 +73,7 @@ class OrderCreateForm extends Component {
             })
             .then(data => {
               this.props.selectOrder(data.orders[0]);
+              this.props.setDeletable();
             });
         });
 

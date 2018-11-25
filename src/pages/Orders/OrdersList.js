@@ -8,18 +8,40 @@ import { selectOrder } from "../../actions";
 import { DB } from "../../configs";
 
 class OrdersList extends Component {
+  state = {
+    deletable: false
+  };
+
+  setDeletable = () => {
+    DB.rel.find("orders").then(({ orders }) => {
+      const os = orders.filter(o => !o.sold);
+      if (os.length > 0) {
+        selectOrder(os[0]);
+        if (!this.state.deletable) {
+          console.log("ici");
+          this.setState({ deletable: true });
+        }
+      } else {
+        this.setState({ deletable: false });
+        selectOrder(null);
+      }
+    });
+  };
+
   deleteOrder = () => {
-    const { orders, selectedOrder, selectOrder } = this.props;
+    const { orders, selectedOrder } = this.props;
     const activedItem = selectedOrder ? selectedOrder : orders[0];
     DB.rel
       .del("orders", activedItem)
-      .then(() => {
-        DB.rel.find("orders").then(({ orders }) => {
-          if (orders.length > 0) {
-            selectOrder(orders[0]);
-          } else {
-            selectOrder(null);
-          }
+      .then(res => {
+        console.log(activedItem);
+        this.setDeletable();
+        activedItem.products.forEach(prod => {
+          DB.rel.find("products", prod).then(({ products }) => {
+            const product = products[0];
+            product.quantity += activedItem[prod];
+            DB.rel.save("products", product);
+          });
         });
       })
       .catch(() => {});
@@ -31,12 +53,16 @@ class OrdersList extends Component {
     if (selectedOrder) {
       selectedOrder.sold = true;
       DB.rel.save("orders", selectedOrder).then(res => {
-        console.log(res);
+        this.setDeletable();
       });
     } else {
       console.log("[NOT ORDER SELECTED]");
     }
   };
+
+  componentDidMount() {
+    this.setDeletable();
+  }
 
   render() {
     const { orders, selectOrder, selectedOrder } = this.props;
@@ -52,20 +78,25 @@ class OrdersList extends Component {
                 titleStyle={{ marginBottom: 0 }}
               />
               <div>
-                <OrderCreateForm />
-                <Button
-                  icon="shopping-cart"
-                  shape="circle-outline"
-                  type="success"
-                  className="mr-2"
-                  onClick={this.sold}
-                />
-                <Button
-                  icon="delete"
-                  shape="circle-outline"
-                  type="danger"
-                  onClick={this.deleteOrder}
-                />
+                <OrderCreateForm setDeletable={this.setDeletable} />
+
+                {this.state.deletable && (
+                  <React.Fragment>
+                    <Button
+                      icon="shopping-cart"
+                      shape="circle-outline"
+                      type="success"
+                      className="mr-2"
+                      onClick={this.sold}
+                    />
+                    <Button
+                      icon="delete"
+                      shape="circle-outline"
+                      type="danger"
+                      onClick={this.deleteOrder}
+                    />
+                  </React.Fragment>
+                )}
               </div>
             </div>
           }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Col, Divider } from "antd";
+import { Col, Divider, Button } from "antd";
 import moment from "moment";
 import DynamicTable from "../../components/auth/DynamicTable";
 import OrderAddArticleBtn from "./OrdersArticleForm";
@@ -30,7 +30,7 @@ class OrderDetails extends Component {
           if (index >= this.state.currentOrder.length - 1) {
             return {
               children: <OrderAddArticleBtn />,
-              props: { colSpan: 5 }
+              props: { colSpan: 6 }
             };
           }
           return <DynamicCell value={text} data={record} row="name" />;
@@ -55,8 +55,63 @@ class OrderDetails extends Component {
         title: "Total",
         key: "total",
         render: (text, record, index) => this.hideEl(text, record, index)
+      },
+      {
+        dataIndex: "option",
+        title: "Option",
+        key: "option",
+        custom: true,
+        width: 80,
+        align: "center",
+        render: (a, r, i) => {
+          console.log(a, r, i);
+          if (i >= this.state.currentOrder.length - 1) {
+            return {
+              props: {
+                colSpan: 0
+              }
+            };
+          }
+
+          return (
+            <span className="p-1 block">
+              <Button
+                size="small"
+                type="danger"
+                icon="delete"
+                title="Supprimer"
+                style={{ fontSize: 14 }}
+                onClick={() => this.deleteDataHandler(r.id)}
+              />
+            </span>
+          );
+        }
       }
     ]
+  };
+
+  deleteDataHandler = id => {
+    //create a new copy of the selected order
+    const selectedOrder = { ...this.props.selectedOrder };
+    const toAdd = selectedOrder[id];
+
+    //remove the key from the selected order
+    delete selectedOrder[id];
+
+    //get a new array with the remaining
+    const products = selectedOrder.products.filter(p => p !== id);
+    selectedOrder.products = products;
+    selectedOrder.total = this.getTotal(selectedOrder);
+    this.props.selectOrder(selectedOrder);
+
+    DB.rel.save("orders", selectedOrder).then(() => {
+      DB.rel.find("products", id).then(({ products }) => {
+        const product = products[0];
+        product.quantity += toAdd;
+
+        DB.rel.save("products", product);
+      });
+    });
   };
 
   hideEl = (text, record, index, row, type) => {
@@ -68,9 +123,11 @@ class OrderDetails extends Component {
         }
       };
     }
+
     return (
       <DynamicCell
         customChange={this.customChange}
+        max={record.max}
         value={text}
         data={record}
         field={type || "read"}
@@ -80,24 +137,27 @@ class OrderDetails extends Component {
   };
 
   customChange = (a, prod, value) => {
+    console.log(a);
     if (!!value) {
       //update the article quantity
       const selectedOrder = this.props.selectedOrder;
       selectedOrder[prod] = value;
 
       //update the order total
-      const total = selectedOrder.products
-        .map(
-          key =>
-            selectedOrder[key] *
-            this.props.orders.products.filter(prod => prod.id === key)[0].price
-        )
-        .reduce((a, b) => a + b);
-      selectedOrder.total = total;
+      selectedOrder.total = this.getTotal(selectedOrder);
 
       DB.rel
         .save("orders", selectedOrder)
-        .then(({ orders }) => this.props.selectOrder(orders[0]));
+        .then(({ orders }) => this.props.selectOrder(orders[0]))
+        .then(() => {
+          DB.rel.find("products", prod).then(({ products }) => {
+            const product = products[0];
+            const reducer = value - a.quantity;
+            product.quantity = product.quantity - reducer;
+
+            DB.rel.save("products", product);
+          });
+        });
     }
   };
 
@@ -105,25 +165,28 @@ class OrderDetails extends Component {
     const { orders } = nextProps;
     // console.log(prevState.selectedOrder, nextProps.selectedOrder);
     let selectedOrder =
-      prevState.selectedOrder != nextProps.selectedOrder
+      prevState.selectedOrder !== nextProps.selectedOrder
         ? nextProps.selectedOrder
         : prevState.selectedOrder;
     if (selectedOrder) {
       if (selectedOrder.products.length > 0) {
         const currentOrder = [
-          ...selectedOrder.products.map(
-            prodID =>
-              orders.products
-                .filter(op => op.id === prodID)
-                .map(prod => ({
-                  ...prod,
-                  key: prodID,
-                  quantity: selectedOrder[prodID],
-                  total: prod.price * selectedOrder[prodID]
-                }))[0]
-          ), //add the btn at the end
+          ...selectedOrder.products.map(prodID => {
+            if (!orders.products) {
+              return null;
+            }
+            return orders.products
+              .filter(op => op.id === prodID)
+              .map(prod => ({
+                ...prod,
+                key: prodID,
+                max: prod.quantity + selectedOrder[prodID],
+                quantity: selectedOrder[prodID],
+                total: prod.price * selectedOrder[prodID]
+              }))[0];
+          }),
           { product: "_addField_", key: "_addField_" }
-        ];
+        ]; //add the btn at the end
         // console.log(currentOrder);
         return { currentOrder };
       }
@@ -134,6 +197,23 @@ class OrderDetails extends Component {
     }
   }
 
+  getTotal = selectedOrder => {
+    // sil na pas delement
+    if (!!!selectedOrder.products.length) {
+      return 0;
+    }
+
+    const total = selectedOrder.products
+      .map(
+        key =>
+          selectedOrder[key] *
+          this.props.orders.products.filter(prod => prod.id === key)[0].price
+      )
+      .reduce((a, b) => a + b);
+
+    return total;
+  };
+
   displayDetails = () => {
     const { selectedOrder, orders } = this.props;
     const client = orders.clients
@@ -143,7 +223,7 @@ class OrderDetails extends Component {
       : null;
 
     // console.log(orders.products);
-    return client ? (
+    return client && !selectedOrder.sold ? (
       <Col style={{ flex: 1 }} className="bg-white p-3 h-100">
         <h2 className="mb-0 text-primary">{selectedOrder.id}</h2>
         <h3 className="opac-5 small">
@@ -190,7 +270,6 @@ class OrderDetails extends Component {
 
   render() {
     const { selectedOrder, orders } = this.props;
-    // console.log("[OrderDetails Render]", selectedOrder);
 
     return selectedOrder && orders
       ? this.displayDetails()
