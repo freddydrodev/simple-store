@@ -53,11 +53,7 @@
     "version-bump-prompt": "^4.1.0"
   },
   "build": {
-<<<<<<< HEAD
-    "appId": "com.river.simple-store",
-=======
     "appId": "com.simple-store",
->>>>>>> 4935f550e4c92f834f85eeb8e52b09e75957eb34
     "compression": "normal",
     "productName": "Simple Store",
     "directories": {

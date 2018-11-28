@@ -64,7 +64,6 @@ class OrderDetails extends Component {
         width: 80,
         align: "center",
         render: (a, r, i) => {
-          console.log(a, r, i);
           if (i >= this.state.currentOrder.length - 1) {
             return {
               props: {
@@ -137,7 +136,6 @@ class OrderDetails extends Component {
   };
 
   customChange = (a, prod, value) => {
-    console.log(a);
     if (!!value) {
       //update the article quantity
       const selectedOrder = this.props.selectedOrder;
@@ -163,7 +161,6 @@ class OrderDetails extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { orders } = nextProps;
-    // console.log(prevState.selectedOrder, nextProps.selectedOrder);
     let selectedOrder =
       prevState.selectedOrder !== nextProps.selectedOrder
         ? nextProps.selectedOrder
@@ -187,10 +184,8 @@ class OrderDetails extends Component {
           }),
           { product: "_addField_", key: "_addField_" }
         ]; //add the btn at the end
-        // console.log(currentOrder);
         return { currentOrder };
       }
-      // console.log("[Derived]", nextProps);
       return { currentOrder: [{ product: "_addField_", key: "_addField_" }] };
     } else {
       return { currentOrder: [{ product: "_addField_", key: "_addField_" }] };
@@ -222,7 +217,6 @@ class OrderDetails extends Component {
         })[0]
       : null;
 
-    // console.log(orders.products);
     return client && !selectedOrder.sold ? (
       <Col style={{ flex: 1 }} className="bg-white p-3 h-100">
         <h2 className="mb-0 text-primary">{selectedOrder.id}</h2>

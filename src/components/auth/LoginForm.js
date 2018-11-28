@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Form, Input, Button, Icon, notification } from "antd";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { USER_DB } from "../../configs";
 import { userLoggedIn } from "../../actions";
 
@@ -65,7 +65,7 @@ class LoginForm extends Component {
         className="authForm"
         onSubmit={this.loginHandler}
         hideRequiredMark
-        style={{ width: 380 }}
+        style={{ width: "100%" }}
       >
         <Form.Item>
           {getFieldDecorator("username", {
@@ -121,12 +121,12 @@ class LoginForm extends Component {
             Se connecter
           </Button>
         </Form.Item>
-        <Form.Item>
+        {/* <Form.Item>
           <p>
             Vous n'avez pas encore de compte? <a href="register">with a </a>
             <Link to="register">Creer un compte.</Link>
           </p>
-        </Form.Item>
+        </Form.Item> */}
       </Form>
     );
   }

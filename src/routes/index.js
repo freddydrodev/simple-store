@@ -57,29 +57,6 @@ class Routes extends Component {
 
     return isReady ? (
       <React.Fragment>
-        {/* <div className="titlebar flex">
-          <span
-            style={{
-              display: "flex",
-              flex: 1,
-              textAlign: "center",
-              justifyContent: "center"
-            }}
-          >
-            Bellise Style
-          </span>
-          <Button
-            size="small"
-            className="border-0 py-0 rounded-0"
-            style={{ height: 20, background: "#ff4d4f", cursor: "pointer" }}
-            onClick={() => electron.app.quit()}
-          >
-            <Icon
-              style={{ fontSize: 15, lineHeight: "20px", color: "white" }}
-              type="close"
-            />
-          </Button>
-        </div> */}
         <div className="container">
           <Router>
             <Switch>

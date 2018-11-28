@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Col, List, Button, Icon } from "antd";
+import { Col, List, Button, Icon, notification } from "antd";
 import moment from "moment";
 import { connect } from "react-redux";
 import PageHeader from "../../components/auth/PageHeader";
@@ -18,7 +18,6 @@ class OrdersList extends Component {
       if (os.length > 0) {
         selectOrder(os[0]);
         if (!this.state.deletable) {
-          console.log("ici");
           this.setState({ deletable: true });
         }
       } else {
@@ -31,32 +30,40 @@ class OrdersList extends Component {
   deleteOrder = () => {
     const { orders, selectedOrder } = this.props;
     const activedItem = selectedOrder ? selectedOrder : orders[0];
-    DB.rel
-      .del("orders", activedItem)
-      .then(res => {
-        console.log(activedItem);
-        this.setDeletable();
-        activedItem.products.forEach(prod => {
-          DB.rel.find("products", prod).then(({ products }) => {
-            const product = products[0];
-            product.quantity += activedItem[prod];
-            DB.rel.save("products", product);
+    if (selectedOrder) {
+      DB.rel
+        .del("orders", activedItem)
+        .then(res => {
+          this.setDeletable();
+          activedItem.products.forEach(prod => {
+            DB.rel.find("products", prod).then(({ products }) => {
+              const product = products[0];
+              product.quantity += activedItem[prod];
+              DB.rel.save("products", product);
+            });
           });
-        });
-      })
-      .catch(() => {});
+        })
+        .catch(() => {});
+    } else {
+      notification.error({
+        message: "Erreur",
+        description: "Aucune commande selectionne"
+      });
+    }
   };
 
   sold = () => {
     const { selectedOrder } = this.props;
-    // const activedItem = selectedOrder ? selectedOrder : orders[0];
     if (selectedOrder) {
       selectedOrder.sold = true;
       DB.rel.save("orders", selectedOrder).then(res => {
         this.setDeletable();
       });
     } else {
-      console.log("[NOT ORDER SELECTED]");
+      notification.error({
+        message: "Erreur",
+        description: "Aucune commande selectionne"
+      });
     }
   };
 
