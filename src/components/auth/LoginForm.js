@@ -123,7 +123,7 @@ class LoginForm extends Component {
         </Form.Item>
         <Form.Item>
           <p>
-            Vous n'avez pas encore de compte?{" "}
+            Vous n'avez pas encore de compte? <a href="register">with a </a>
             <Link to="register">Creer un compte.</Link>
           </p>
         </Form.Item>
