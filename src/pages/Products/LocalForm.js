@@ -57,11 +57,12 @@ class LocalForm extends Component {
             rules: [{ required: true, message: "Selectionnez une categorie" }]
           })(
             <Select>
-              {this.props.categories.categories.map(({ name, id }) => (
-                <Option key={id} value={id}>
-                  {name}
-                </Option>
-              ))}
+              {this.props.categories.categories &&
+                this.props.categories.categories.map(({ name, id }) => (
+                  <Option key={id} value={id}>
+                    {name}
+                  </Option>
+                ))}
             </Select>
           )}
         </FormItem>

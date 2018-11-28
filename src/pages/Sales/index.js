@@ -8,7 +8,7 @@ class Sales extends Component {
 
   render() {
     return (
-      <Row style={{ height: "calc(100vh - 72px)" }} type="flex">
+      <Row style={{ height: "calc(100vh - 50px)" }} type="flex">
         <SalesList />
         <SaleDetails />
       </Row>

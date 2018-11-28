@@ -161,7 +161,7 @@ class PrivateFlow extends Component {
       <Menu
         defaultSelectedKeys={[location.pathname]}
         mode="inline"
-        style={{ height: "calc(100vh - 72px)" }}
+        style={{ height: "calc(100vh - 50px)" }}
       >
         <MenuItem key="/app/clients">
           <Link to={url + "/clients"}>

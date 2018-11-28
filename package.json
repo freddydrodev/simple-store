@@ -1,5 +1,5 @@
 {
-  "name": "simple-store",
+  "name": "belliseStyle",
   "version": "1.0.0",
   "description": "Store Management system",
   "private": false,
@@ -53,7 +53,7 @@
     "version-bump-prompt": "^4.1.0"
   },
   "build": {
-    "appId": "com.simple-store",
+    "appId": "com.belliseStyle",
     "compression": "normal",
     "productName": "Simple Store",
     "directories": {
